@@ -10,11 +10,6 @@ public class Operacion {
 	private int montoOperacion;
 	
 	
-	
-	
-	
-	
-	
 	public Operacion(String pTipo, Date pFechaOperacion, boolean pHayComision, int pMontoComision, int pMontoOperacion) {
 		super();
 		this.tipo = pTipo;
