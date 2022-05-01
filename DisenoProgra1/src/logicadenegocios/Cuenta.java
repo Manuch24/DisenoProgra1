@@ -104,10 +104,17 @@ public class Cuenta {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	
 	public int montoTotalComisionesDepositoRetiro() {
+		int monto = 0;
+		
+		return monto + (montoTotalComisionesDeposito() + montoTotalComisionesRetiro()) ;
+	}
+	
+	public int montoTotalComisionesDeposito() {
 		int monto = 0;
 		for (int i = 0; i <= getOperaciones().size(); i++ ) {
 			if (getOperaciones().get(i).getTipo().equals("Deposito")) {
@@ -115,6 +122,38 @@ public class Cuenta {
 			}			
 		}
 		return monto;
+	}
+	
+	public int montoTotalComisionesRetiro() {
+		int monto = 0;
+		for (int i = 0; i <= getOperaciones().size(); i++ ) {
+			if (getOperaciones().get(i).getTipo().equals("Retiro")) {
+				monto =+ getOperaciones().get(i).getMontoComision();
+			}			
+		}
+		return monto;
+	}
+	
+	//Valida que el monto a retirar sea menos o igual al saldo.
+	public boolean validarMonto(int pMonto) {
+		if (pMonto <= getSaldo()) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	
+	public boolean esCuentaBloqueada() {
+		if (getStatus().equals("Bloqueada")) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public void bloquearCuenta() {
+		setStatus("Bloqueada");
 	}
 	
 	

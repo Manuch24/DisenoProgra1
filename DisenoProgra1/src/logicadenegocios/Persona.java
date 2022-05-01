@@ -1,5 +1,6 @@
 package logicadenegocios;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Persona {
@@ -11,6 +12,7 @@ public class Persona {
 	private Date fechaNacimiento;
 	private int numeroTelefono;
 	private String email;
+	private ArrayList<Cuenta> misCuentas;
 	
 	
 	public Persona(String pIdPersona, int pCedula, String pNombreCliente, String pPrimerApellido, String pSegundoApellido,
@@ -24,6 +26,10 @@ public class Persona {
 		this.fechaNacimiento = pFechaNacimiento;
 		this.numeroTelefono = pNumeroTelefono;
 		this.email = pEmail;
+		this.misCuentas = new ArrayList<Cuenta>();
+	}
+	
+	public Persona() {
 	}
 	
 	public String getIdPersona() {
@@ -74,6 +80,16 @@ public class Persona {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public ArrayList<Cuenta> getMisCuentas() {
+		return misCuentas;
+	}
+
+	public void setMisCuentas(ArrayList<Cuenta> misCuentas) {
+		this.misCuentas = misCuentas;
+	}
+	
+	
 	
 	
 	
