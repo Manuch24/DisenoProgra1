@@ -1,11 +1,13 @@
 package logicadenegocios;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Persona {
-	private String idPersona;
-	private int cedula;
+	private String idPersona = "CIF_";
+	private String identificacion;
 	private String nombreCliente;
 	private String primerApellido;
 	private String segundoApellido;
@@ -13,24 +15,28 @@ public class Persona {
 	private int numeroTelefono;
 	private String email;
 	private ArrayList<Cuenta> misCuentas;
+	private static int cantPersonas = 1;
 	
-	
-	public Persona(String pIdPersona, int pCedula, String pNombreCliente, String pPrimerApellido, String pSegundoApellido,
+	public Persona(String pNombreCliente, String pPrimerApellido, String pSegundoApellido,
 			Date pFechaNacimiento, int pNumeroTelefono, String pEmail) {
 		super();
-		this.idPersona = pIdPersona;
-		this.cedula = pCedula;
+		this.idPersona += String.valueOf(cantPersonas);
 		this.nombreCliente = pNombreCliente;
 		this.primerApellido = pPrimerApellido;
 		this.segundoApellido = pSegundoApellido;
 		this.fechaNacimiento = pFechaNacimiento;
 		this.numeroTelefono = pNumeroTelefono;
 		this.email = pEmail;
+		cantPersonas++;
 		this.misCuentas = new ArrayList<Cuenta>();
 	}
 	
 	public Persona() {
+		this.misCuentas = new ArrayList<Cuenta>();
+		this.idPersona += String.valueOf(cantPersonas);
+		cantPersonas++;
 	}
+	
 	
 	public String getIdPersona() {
 		return idPersona;
@@ -38,12 +44,15 @@ public class Persona {
 	public void setIdPersona(String idPersona) {
 		this.idPersona = idPersona;
 	}
-	public int getCedula() {
-		return cedula;
+	
+	public String getIdentificacion() {
+		return identificacion;
 	}
-	public void setCedula(int cedula) {
-		this.cedula = cedula;
+
+	public void setIdentificacion(String identificacion) {
+		this.identificacion = identificacion;
 	}
+
 	public String getNombreCliente() {
 		return nombreCliente;
 	}
@@ -65,8 +74,8 @@ public class Persona {
 	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
-	public void setFechaNacimiento(Date fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+	public void setFechaNacimiento(String fechaNacimiento) throws ParseException {
+		this.fechaNacimiento = setDate(fechaNacimiento);;
 	}
 	public int getNumeroTelefono() {
 		return numeroTelefono;
@@ -88,6 +97,20 @@ public class Persona {
 	public void setMisCuentas(ArrayList<Cuenta> misCuentas) {
 		this.misCuentas = misCuentas;
 	}
+	
+	private Date setDate(String pDate) throws ParseException {
+		//Se ingresa el parametro de tipo String y se pasa al formato Date para un mejor manejo
+		Date date1 = new SimpleDateFormat("dd/MM/yyy").parse(pDate);
+		return date1;
+	}
+
+	@Override
+	public String toString() {
+		return "Persona [idPersona=" + idPersona + ", nombreCliente=" + nombreCliente + ", primerApellido="
+				+ primerApellido + ", segundoApellido=" + segundoApellido + ", fechaNacimiento=" + fechaNacimiento
+				+ ", numeroTelefono=" + numeroTelefono + ", email=" + email + ", misCuentas=" + misCuentas + "]";
+	}
+	
 	
 	
 	
