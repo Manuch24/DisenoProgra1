@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Persona {
 	private String idPersona = "CIF_";
-	private String identificacion;
+	private int identificacion;
 	private String nombreCliente;
 	private String primerApellido;
 	private String segundoApellido;
@@ -45,11 +45,11 @@ public class Persona {
 		this.idPersona = idPersona;
 	}
 	
-	public String getIdentificacion() {
+	public int getIdentificacion() {
 		return identificacion;
 	}
 
-	public void setIdentificacion(String identificacion) {
+	public void setIdentificacion(int identificacion) {
 		this.identificacion = identificacion;
 	}
 
@@ -98,6 +98,20 @@ public class Persona {
 		this.misCuentas = misCuentas;
 	}
 	
+	
+	
+	public static int getCantPersonas() {
+		return cantPersonas;
+	}
+
+	public static void setCantPersonas(int cantPersonas) {
+		Persona.cantPersonas = cantPersonas;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
 	private Date setDate(String pDate) throws ParseException {
 		//Se ingresa el parametro de tipo String y se pasa al formato Date para un mejor manejo
 		Date date1 = new SimpleDateFormat("dd/MM/yyy").parse(pDate);
