@@ -7,9 +7,16 @@ import java.text.ParseException;
 
 import logicadenegocios.Persona;
 
+import consultasDAO.PersonaDAO;
+
 public class ControladorPersona {
 	
-	public void cliRegistrarPersona() throws IOException, ParseException {
+	private PersonaDAO personaDAO;
+	
+	public void cliRegistrarPersona(PersonaDAO personaDAO) throws IOException, ParseException {
+		
+		this.personaDAO = personaDAO;
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		Persona persona = new Persona();
@@ -28,7 +35,7 @@ public class ControladorPersona {
 		
 		System.out.println("Ingrese la identificacion: ");
 		String identificacion = br.readLine();
-		persona.setIdentificacion(identificacion);
+		persona.setIdentificacion(Integer.parseInt(identificacion));
 		
 		System.out.println("Ingrese la fecha de nacimiento con el siguiente formato dd/mm/yyyy: ");
 		String fechaNacimiento = br.readLine();
@@ -66,5 +73,14 @@ public class ControladorPersona {
 		System.out.println("Nombre: "+persona.getNombreCliente());
 		System.out.println("Identificacion: "+persona.getIdentificacion());
 		System.out.println("Numero telefonico: "+persona.getNumeroTelefono());
+		
+		if (personaDAO.registrar(persona)) {
+			System.out.println("Registro guardado");
+		}else {
+			System.out.println("Error al gguardar");
+		}
+	
+	
+		
 	}
 }

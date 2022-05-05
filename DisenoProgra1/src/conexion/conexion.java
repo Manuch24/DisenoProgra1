@@ -10,8 +10,10 @@ import java.sql.Statement;
 public class conexion {
 
 	
-	  private final String base = "DisennoPP1"; private final String user = "sa";
-	  private final String password = "12345"; private final string url = "jdbc:"
+	/*
+	 * private final String base = "DisennoPP1"; private final String user = "sa";
+	 * private final String password = "12345"; private final string url = "jdbc:"
+	 */
 	 /**
 		 * Class para generar la la conexion con sql server 2017
 		 */

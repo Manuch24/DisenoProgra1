@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.Scanner;
 
+import consultasDAO.PersonaDAO;
 import logicadenegocios.Cuenta;
 import logicadenegocios.Operacion;
 
@@ -43,7 +44,8 @@ public class VistaConsola {
 	        {
 	            case 1:
 	            	ControladorPersona nuevoRegistro = new ControladorPersona();
-	            	nuevoRegistro.cliRegistrarPersona();
+				PersonaDAO personaDAO = new PersonaDAO();
+				nuevoRegistro.cliRegistrarPersona(personaDAO);
 	            	break;
 	            case 2:
 	            	//menuRegistrarPersona();
