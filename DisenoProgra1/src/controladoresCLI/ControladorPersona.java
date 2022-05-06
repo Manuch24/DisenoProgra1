@@ -11,11 +11,11 @@ import consultasDAO.PersonaDAO;
 
 public class ControladorPersona {
 	
-	private PersonaDAO personaDAO;
+	private PersonaDAO modeloConsulta;
 	
-	public void cliRegistrarPersona(PersonaDAO personaDAO) throws IOException, ParseException {
+	public void cliRegistrarPersona(PersonaDAO modeloConsulta) throws IOException, ParseException {
 		
-		this.personaDAO = personaDAO;
+		this.modeloConsulta = modeloConsulta;
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -37,7 +37,7 @@ public class ControladorPersona {
 		String identificacion = br.readLine();
 		persona.setIdentificacion(Integer.parseInt(identificacion));
 		
-		System.out.println("Ingrese la fecha de nacimiento con el siguiente formato dd/mm/yyyy: ");
+		System.out.println("Ingrese la fecha de nacimiento con el siguiente formato yyyy-MM-dd: ");
 		String fechaNacimiento = br.readLine();
 		persona.setFechaNacimiento(fechaNacimiento);
 		
@@ -66,6 +66,12 @@ public class ControladorPersona {
 		}
 		persona.setEmail(correo);
 		
+		if (modeloConsulta.registrar(persona, fechaNacimiento)) {
+			System.out.println("Registro guardado");
+		}else {
+			System.out.println("Error al gguardar");
+		}
+		
 		System.out.println(persona.toString());
 		System.out.println("Los datos registrados son: ");
 		System.out.println();
@@ -74,11 +80,7 @@ public class ControladorPersona {
 		System.out.println("Identificacion: "+persona.getIdentificacion());
 		System.out.println("Numero telefonico: "+persona.getNumeroTelefono());
 		
-		if (personaDAO.registrar(persona)) {
-			System.out.println("Registro guardado");
-		}else {
-			System.out.println("Error al gguardar");
-		}
+		
 	
 	
 		

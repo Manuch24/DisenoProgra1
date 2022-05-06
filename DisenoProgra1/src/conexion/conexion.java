@@ -21,9 +21,9 @@ public class conexion {
 	/**
 	 * atributos requeridos para la clase conexion
 	 */
-	static Connection contacto = null;
+	public static Connection contacto = null;
 
-	public static boolean status = false;
+
 
 	/**
 	 * Método devuelve el status de la conexión con el servidor la variable contacto
@@ -33,7 +33,6 @@ public class conexion {
 	 * @return contacto que seria el resultado de la conexión
 	 */
 	public static Connection getConexion() {
-		status = false;
 		String url = "jdbc:sqlserver://localhost:1433;databaseName=DisennoPP1";
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -43,7 +42,6 @@ public class conexion {
 		}
 		try {
 			contacto = DriverManager.getConnection(url, "sa", "12345");
-			status = true;
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "ERROR" + e.getMessage(), "Error de conexion",
 					JOptionPane.ERROR_MESSAGE);

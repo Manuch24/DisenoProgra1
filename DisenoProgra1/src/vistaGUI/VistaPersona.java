@@ -10,8 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class vistaPersona extends JFrame {
+public class VistaPersona extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtCedula;
@@ -20,27 +22,13 @@ public class vistaPersona extends JFrame {
 	private JTextField txtSegundoApellido;
 	private JTextField txtNumTelefono;
 	private JTextField txtEmail;
+	public JButton btnRegistrarPersona;
+	private JDateChooser dateChooserNacimiento;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					vistaPersona frame = new vistaPersona();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
+		/**
 	 * Create the frame.
 	 */
-	public vistaPersona() {
+	public VistaPersona() {
 		setTitle("Registrar Usuario");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 511, 476);
@@ -111,12 +99,40 @@ public class vistaPersona extends JFrame {
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 		
-		JButton btnRegistrarPersona = new JButton("Registrar");
+		btnRegistrarPersona = new JButton("Registrar");
+		btnRegistrarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnRegistrarPersona.setBounds(351, 375, 89, 23);
 		contentPane.add(btnRegistrarPersona);
 		
-		JDateChooser dateChooserNacimiento = new JDateChooser();
+		dateChooserNacimiento = new JDateChooser();
 		dateChooserNacimiento.setBounds(229, 237, 163, 20);
 		contentPane.add(dateChooserNacimiento);
+	}
+	public JButton getBtnRegistrarPersona() {
+		return btnRegistrarPersona;
+	}
+	public JTextField getTxtCedula() {
+		return txtCedula;
+	}
+	public JTextField getTxtNombre() {
+		return txtNombre;
+	}
+	public JTextField getTxtPrimerApellid() {
+		return txtPrimerApellid;
+	}
+	public JTextField getTxtSegundoApellido() {
+		return txtSegundoApellido;
+	}
+	public JDateChooser getDateChooserNacimiento() {
+		return dateChooserNacimiento;
+	}
+	public JTextField getTxtNumTelefono() {
+		return txtNumTelefono;
+	}
+	public JTextField getTxtEmail() {
+		return txtEmail;
 	}
 }

@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Huawei/OneDrive/Documentos/SQLDriver/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Huawei/OneDrive/Documentos/SQLDriver/sqljdbc4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

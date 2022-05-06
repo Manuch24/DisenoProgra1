@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Persona {
-	private String idPersona = "CIF_";
+	private String idPersona;
 	private int identificacion;
 	private String nombreCliente;
 	private String primerApellido;
 	private String segundoApellido;
-	private Date fechaNacimiento;
+	private String fechaNacimiento;
 	private int numeroTelefono;
 	private String email;
 	private ArrayList<Cuenta> misCuentas;
 	private static int cantPersonas = 1;
 	
 	public Persona(String pNombreCliente, String pPrimerApellido, String pSegundoApellido,
-			Date pFechaNacimiento, int pNumeroTelefono, String pEmail) {
+			String pFechaNacimiento, int pNumeroTelefono, String pEmail) {
 		super();
 		this.idPersona += String.valueOf(cantPersonas);
 		this.nombreCliente = pNombreCliente;
@@ -33,7 +33,7 @@ public class Persona {
 	
 	public Persona() {
 		this.misCuentas = new ArrayList<Cuenta>();
-		this.idPersona += String.valueOf(cantPersonas);
+		this.idPersona = "CIF_";
 		cantPersonas++;
 	}
 	
@@ -71,11 +71,11 @@ public class Persona {
 	public void setSegundoApellido(String segundoApellido) {
 		this.segundoApellido = segundoApellido;
 	}
-	public Date getFechaNacimiento() {
+	public String getFechaNacimiento() {
 		return fechaNacimiento;
 	}
-	public void setFechaNacimiento(String fechaNacimiento) throws ParseException {
-		this.fechaNacimiento = setDate(fechaNacimiento);;
+	public void setFechaNacimiento(String fechaNacimiento)  {
+		this.fechaNacimiento = fechaNacimiento;
 	}
 	public int getNumeroTelefono() {
 		return numeroTelefono;
@@ -108,15 +108,6 @@ public class Persona {
 		Persona.cantPersonas = cantPersonas;
 	}
 
-	public void setFechaNacimiento(Date fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	private Date setDate(String pDate) throws ParseException {
-		//Se ingresa el parametro de tipo String y se pasa al formato Date para un mejor manejo
-		Date date1 = new SimpleDateFormat("dd/MM/yyy").parse(pDate);
-		return date1;
-	}
 
 	@Override
 	public String toString() {

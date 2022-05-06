@@ -1,7 +1,6 @@
 /vistaGUI/
-/controladoresCLI/
 /conexion/
-/logicadenegocios/
-/vistaCLI/
-/Validaciones/
 /consultasDAO/
+/controladoresGUI/
+/logicadenegocios/
+/controladoresCLI/
