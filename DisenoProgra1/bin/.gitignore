@@ -1,5 +1,10 @@
 /controladoresGUI/
+<<<<<<< Updated upstream
 /vistaGUI/
 /logicadenegocios/
 /controladoresCLI/
 /vistaCLI/
+=======
+/consultasDAO/
+/aplicacion/
+>>>>>>> Stashed changes

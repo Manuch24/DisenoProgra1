@@ -42,11 +42,11 @@ public class VistaMenu extends JFrame {
 		contentPane.setLayout(null);
 		
 		btnRgistrarCliente = new JButton("Registrar Cliente");
-		btnRgistrarCliente.setBounds(89, 44, 119, 21);
+		btnRgistrarCliente.setBounds(32, 44, 176, 21);
 		contentPane.add(btnRgistrarCliente);
 		
 		btnRegistarCuenta = new JButton("Registar Cuenta");
-		btnRegistarCuenta.setBounds(253, 44, 105, 21);
+		btnRegistarCuenta.setBounds(253, 44, 147, 21);
 		contentPane.add(btnRegistarCuenta);
 	}
 	public JButton getBtnRgistrarCliente() {

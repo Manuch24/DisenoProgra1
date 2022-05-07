@@ -30,6 +30,7 @@ public class ControladorPersona implements ActionListener{
 	
 	public void iniciar() {
 		vista.setTitle("Registrar Cliente");
+		vista.setVisible(true);
 		vista.setLocationRelativeTo(null);
 	}
 	

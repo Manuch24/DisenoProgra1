@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class VistaCuenta extends JFrame {
 
@@ -16,6 +17,8 @@ public class VistaCuenta extends JFrame {
 	private JTextField txtPin;
 	private JTextField txtMontoInicial;
 	private JComboBox cbxCliente;
+	private JButton btnRegistrarCuenta;
+	private final JButton btnVolver = new JButton("Volver");
 
 	/**
 	 * Launch the application.
@@ -38,7 +41,7 @@ public class VistaCuenta extends JFrame {
 	 */
 	public VistaCuenta() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 599, 436);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -53,7 +56,7 @@ public class VistaCuenta extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Ingrese su pin:  ");
-		lblNewLabel_1.setBounds(70, 71, 84, 13);
+		lblNewLabel_1.setBounds(70, 71, 116, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		txtPin = new JTextField();
@@ -67,10 +70,28 @@ public class VistaCuenta extends JFrame {
 		txtMontoInicial.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Monto inicial");
-		lblNewLabel_2.setBounds(70, 116, 84, 13);
+		lblNewLabel_2.setBounds(70, 116, 116, 13);
 		contentPane.add(lblNewLabel_2);
+		
+		btnRegistrarCuenta = new JButton("Registrar");
+		btnRegistrarCuenta.setBounds(312, 195, 138, 21);
+		contentPane.add(btnRegistrarCuenta);
+		btnVolver.setBounds(56, 187, 130, 36);
+		contentPane.add(btnVolver);
 	}
 	public JComboBox getCbxCliente() {
 		return cbxCliente;
+	}
+	public JButton getBtnRegistrarCuenta() {
+		return btnRegistrarCuenta;
+	}
+	public JButton getBtnVolver() {
+		return btnVolver;
+	}
+	public JTextField getTxtPin() {
+		return txtPin;
+	}
+	public JTextField getTxtMontoInicial() {
+		return txtMontoInicial;
 	}
 }
