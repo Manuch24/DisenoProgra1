@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 
-public class VistaCuenta extends JFrame {
+public class vistaCuenta extends JFrame {
 
 	private JPanel contentPane;
 
@@ -20,7 +20,7 @@ public class VistaCuenta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VistaCuenta() {
+	public vistaCuenta() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 670, 454);
 		contentPane = new JPanel();

@@ -24,6 +24,8 @@ public class VistaPersona extends JFrame {
 	private JTextField txtEmail;
 	public JButton btnRegistrarPersona;
 	private JDateChooser dateChooserNacimiento;
+	public JLabel lblTelefono;
+	public JLabel lblEmail;
 
 		/**
 	 * Create the frame.
@@ -110,6 +112,14 @@ public class VistaPersona extends JFrame {
 		dateChooserNacimiento = new JDateChooser();
 		dateChooserNacimiento.setBounds(229, 237, 163, 20);
 		contentPane.add(dateChooserNacimiento);
+		
+		JLabel lblTelefono = new JLabel("");
+		lblTelefono.setBounds(402, 278, 83, 14);
+		contentPane.add(lblTelefono);
+		
+		JLabel lblEmail = new JLabel("");
+		lblEmail.setBounds(300, 339, 122, 14);
+		contentPane.add(lblEmail);
 	}
 	public JButton getBtnRegistrarPersona() {
 		return btnRegistrarPersona;
@@ -135,4 +145,7 @@ public class VistaPersona extends JFrame {
 	public JTextField getTxtEmail() {
 		return txtEmail;
 	}
+	/*public JLabel getLblTelefono{
+		return lblTelefono;
+	}*/
 }

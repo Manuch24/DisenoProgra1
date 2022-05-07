@@ -12,6 +12,8 @@ import consultasDAO.PersonaDAO;
 public class ControladorPersona {
 	
 	private PersonaDAO modeloConsulta;
+	private boolean verificarTelefono=false;
+	private boolean verificarEmail=false;
 	
 	public void cliRegistrarPersona(PersonaDAO modeloConsulta) throws IOException, ParseException {
 		
@@ -43,10 +45,11 @@ public class ControladorPersona {
 		
 		System.out.println("Ingrese su numero telefonico: ");
 		String  telefono = br.readLine();
-		
-		while(Validaciones.Validaciones.validarTelefonoRegex(Integer.parseInt(telefono))!=true) {
+		System.out.println("Es extraño: "+ Integer.parseInt(telefono));
+		while(verificarTelefono!=true) {
 			if (Validaciones.Validaciones.validarTelefonoRegex(Integer.parseInt(telefono))==true) {
 				persona.setNumeroTelefono(Integer.parseInt(telefono));
+				verificarTelefono=true;
 			}else{
 				System.out.println("Error en el formato de teléfono");
 				System.out.println("Vuelva a ingresar su numero telefonico: ");
@@ -55,21 +58,22 @@ public class ControladorPersona {
 		}
 		System.out.println("Ingrese el correo: ");
 		String correo = br.readLine();
-		while(Validaciones.Validaciones.validarEmailRegex(correo)!=true) {
+		while(verificarEmail!=true) {
 			if (Validaciones.Validaciones.validarEmailRegex(correo)==true) {
 				persona.setEmail(correo);
+				verificarEmail=true;
 			}else{
 				System.out.println("Error en el formato de su email");
 				System.out.println("Vuelva a ingresar su email: ");
 				correo = br.readLine();
 			}
 		}
-		persona.setEmail(correo);
+		//persona.setEmail(correo);
 		
 		if (modeloConsulta.registrar(persona, fechaNacimiento)) {
 			System.out.println("Registro guardado");
 		}else {
-			System.out.println("Error al gguardar");
+			System.out.println("Error al guardar");
 		}
 		
 		System.out.println(persona.toString());

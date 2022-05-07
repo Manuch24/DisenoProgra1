@@ -1,6 +1,3 @@
 /vistaGUI/
-/conexion/
-/consultasDAO/
-/controladoresGUI/
-/logicadenegocios/
 /controladoresCLI/
+/controladoresGUI/
