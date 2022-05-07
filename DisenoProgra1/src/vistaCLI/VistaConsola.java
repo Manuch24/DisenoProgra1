@@ -1,7 +1,7 @@
 package vistaCLI;
 
 import logicadenegocios.Persona;
-
+import controladoresCLI.ControladorCuenta;
 import controladoresCLI.ControladorPersona;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class VistaConsola {
 	   		System.out.println("Eliga la opcion que desea acceder: ");
 	   		System.out.println();
 	    	System.out.println("1. Registrar cliente ");
-	    	System.out.println("2. Registrar cliente ");
+	    	System.out.println("2. Registrar cuenta ");
 	    	System.out.println("3. Salir");
 	    		
 	    	int opcion = reader.nextInt();
@@ -44,11 +44,12 @@ public class VistaConsola {
 	        {
 	            case 1:
 	            	ControladorPersona nuevoRegistro = new ControladorPersona();
-				PersonaDAO personaDAO = new PersonaDAO();
-				nuevoRegistro.cliRegistrarPersona(personaDAO);
+	            	PersonaDAO personaDAO = new PersonaDAO();
+	            	nuevoRegistro.cliRegistrarPersona(personaDAO);
 	            	break;
 	            case 2:
-	            	//menuRegistrarPersona();
+	            	ControladorCuenta nuevoRegistroCuenta = new ControladorCuenta();
+	            	nuevoRegistroCuenta.cliRegistrarCuenta();
 	            	break;
 	            case 3:
 	        

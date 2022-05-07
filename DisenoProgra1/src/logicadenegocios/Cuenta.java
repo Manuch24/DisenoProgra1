@@ -3,9 +3,13 @@ package logicadenegocios;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+//import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 
 public class Cuenta {
-	private int numeroCuenta;
+	private static int numeroCuenta=1;
 	private Date fechaCreacion;
 	private int saldo;
 	private String status;
@@ -14,8 +18,23 @@ public class Cuenta {
 	private int cantidadOperaciones;
 	
 	public Cuenta() {
-		
+		this.operaciones = new ArrayList<Operacion>();
+		numeroCuenta++;
 	}
+	
+	public Cuenta(int pSaldo, String pPin) {
+		this.saldo=pSaldo;
+		this.pin=pPin;
+		this.status="Activo";
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		this.fechaCreacion = date;
+		
+		this.operaciones = new ArrayList<Operacion>();
+		numeroCuenta++;
+	}
+	
 	
 	public int getNumeroCuenta() {
 		return numeroCuenta;
@@ -155,6 +174,13 @@ public class Cuenta {
 	public void bloquearCuenta() {
 		setStatus("Bloqueada");
 	}
+
+	@Override
+	public String toString() {
+		return "Cuenta [fechaCreacion=" + fechaCreacion + ", saldo=" + saldo + ", status=" + status + ", pin=" + pin
+				+ ", operaciones=" + operaciones + ", cantidadOperaciones=" + cantidadOperaciones + "]";
+	}
+	
 	
 	
 	
