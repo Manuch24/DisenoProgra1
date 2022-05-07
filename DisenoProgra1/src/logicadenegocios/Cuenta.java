@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 
 public class Cuenta {
 	private static int numeroCuenta=1;
-	private Date fechaCreacion;
+	private String fechaCreacion;
 	private int saldo;
 	private String status;
 	private String pin;
@@ -26,11 +26,6 @@ public class Cuenta {
 		this.saldo=pSaldo;
 		this.pin=pPin;
 		this.status="Activo";
-		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		this.fechaCreacion = date;
-		
 		this.operaciones = new ArrayList<Operacion>();
 		numeroCuenta++;
 	}
@@ -44,11 +39,11 @@ public class Cuenta {
 		this.numeroCuenta = numeroCuenta;
 	}
 
-	public Date getFechaCreacion() {
+	public String getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(String fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -156,9 +151,9 @@ public class Cuenta {
 	//Valida que el monto a retirar sea menos o igual al saldo.
 	public boolean validarMonto(int pMonto) {
 		if (pMonto <= getSaldo()) {
-			return true;
-		}else {
 			return false;
+		}else {
+			return true;
 		}
 		
 	}

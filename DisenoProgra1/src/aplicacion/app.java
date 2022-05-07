@@ -12,7 +12,7 @@ public class app {
 		VistaMenu vista = new VistaMenu();
 		ControladorMenu controladorMenu = new ControladorMenu(vista);
 		controladorMenu.iniciar();
-		
+		System.out.println(java.time.LocalDate.now());  
 		
 	}
 

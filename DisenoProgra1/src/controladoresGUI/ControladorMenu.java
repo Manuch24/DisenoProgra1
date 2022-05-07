@@ -22,6 +22,7 @@ public class ControladorMenu implements ActionListener {
 	private ControladorCuenta controladorCuenta;
 	
 	public ControladorMenu (VistaMenu vista) {
+	
 		this.vista = vista;
 		this.vista.getBtnRegistarCuenta().addActionListener(this);
 		this.vista.getBtnRgistrarCliente().addActionListener(this);
@@ -39,9 +40,8 @@ public class ControladorMenu implements ActionListener {
 		// TODO Auto-generated method stub
 		if(e.getSource() == vista.getBtnRegistarCuenta()) {
 			Cuenta modelo = new Cuenta();
-			CuentaDAO cuentaDAO = new CuentaDAO();
 			VistaCuenta vistaCuenta = new VistaCuenta();
-			this.controladorCuenta = new ControladorCuenta(modelo, cuentaDAO, vistaCuenta);
+			controladorCuenta = new ControladorCuenta(modelo, vistaCuenta);
 			controladorCuenta.iniciar();
 			vista.setVisible(false);
 		}

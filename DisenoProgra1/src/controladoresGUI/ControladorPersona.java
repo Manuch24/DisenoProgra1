@@ -48,7 +48,8 @@ public class ControladorPersona implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		//while (verificarEmail!=true && verificarTelefono!=true) {
-			if (Validaciones.validarEmailRegex(vista.getTxtEmail().getText()) ==true && Validaciones.validarTelefonoRegex(Integer.parseInt(vista.getTxtNumTelefono().getText())) ==true) {
+			if (Validaciones.validarEmailRegex(vista.getTxtEmail().getText()) ==true 
+					&& Validaciones.validarTelefonoRegex(Integer.parseInt(vista.getTxtNumTelefono().getText())) ==true) {
 				if(e.getSource() == vista.getBtnRegistrarPersona()) {
 					modelo.setIdentificacion(Integer.parseInt(vista.getTxtCedula().getText()));
 					modelo.setNombreCliente(vista.getTxtNombre().getText());
