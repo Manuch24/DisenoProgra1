@@ -2,7 +2,6 @@ package vistaGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,6 +11,24 @@ import javax.swing.JButton;
 public class VistaMenu extends JFrame {
 
 	private JPanel contentPane;
+	private JButton btnRgistrarCliente;
+	private JButton btnRegistarCuenta;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VistaMenu frame = new VistaMenu();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
@@ -24,12 +41,18 @@ public class VistaMenu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Conectar");
-		btnNewButton.setBounds(125, 120, 85, 21);
-		contentPane.add(btnNewButton);
+		btnRgistrarCliente = new JButton("Registrar Cliente");
+		btnRgistrarCliente.setBounds(89, 44, 119, 21);
+		contentPane.add(btnRgistrarCliente);
 		
-	
-	
+		btnRegistarCuenta = new JButton("Registar Cuenta");
+		btnRegistarCuenta.setBounds(253, 44, 105, 21);
+		contentPane.add(btnRegistarCuenta);
 	}
-	
+	public JButton getBtnRgistrarCliente() {
+		return btnRgistrarCliente;
+	}
+	public JButton getBtnRegistarCuenta() {
+		return btnRegistarCuenta;
+	}
 }

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JComboBox;
+
 import conexion.conexion;
 import logicadenegocios.Persona;
 
@@ -85,6 +87,32 @@ public class PersonaDAO extends conexion  {
 			}
 			
 		}
+	}
+	
+	public void listarIdentificaciones(JComboBox cbx) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+
+		String sql = "SELECT identificacion FROM Persona ";
+
+		try{
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			while(rs.next()){
+				cbx.addItem(rs.getInt("identificacion"));
+			}
+			rs.close();
+		}catch(SQLException e){
+			System.err.println(e);
+		}finally{
+			try{
+				con.close();
+			}catch (SQLException e){
+				System.err.println(e);
+			}
+		} 
 	}
 	
 	
