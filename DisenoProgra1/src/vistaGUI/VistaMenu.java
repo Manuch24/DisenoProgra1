@@ -16,6 +16,7 @@ public class VistaMenu extends JFrame {
 	private JButton btnRgistrarCliente;
 	private JButton btnRegistarCuenta;
 	private JButton btnVerClientes;
+	private JButton btnVerCuentas;
 
 	/**
 	 * Launch the application.
@@ -59,6 +60,10 @@ public class VistaMenu extends JFrame {
 		});
 		btnVerClientes.setBounds(65, 119, 162, 21);
 		contentPane.add(btnVerClientes);
+		
+		btnVerCuentas = new JButton("Ver Cuentas");
+		btnVerCuentas.setBounds(286, 119, 140, 21);
+		contentPane.add(btnVerCuentas);
 	}
 	public JButton getBtnRgistrarCliente() {
 		return btnRgistrarCliente;
@@ -69,4 +74,8 @@ public class VistaMenu extends JFrame {
 	public JButton getBtnVerClientes() {
 		return btnVerClientes;
 	}
+	public JButton getBtnVerCuentas() {
+		return btnVerCuentas;
+	}
+
 }

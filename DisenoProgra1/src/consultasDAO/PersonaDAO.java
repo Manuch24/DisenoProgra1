@@ -5,12 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import conexion.conexion;
+import logicadenegocios.Cuenta;
 import logicadenegocios.Persona;
 
 public class PersonaDAO extends conexion  {
@@ -143,10 +146,102 @@ public class PersonaDAO extends conexion  {
 			
 		}
 	
+	public void detallesPersona(JTable tabla) {
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		Persona persona = new Persona();
+		String sql = "SELECT * FROM Persona WHERE identificacion = "+tabla.getValueAt(tabla.getSelectedRow(), 3);
+		
+		try {
+			ps = con.prepareStatement(sql);
+//			ps.setString(1, tabla.getValueAt(tabla.getSelectedRow(),tabla.getSelectedColumn()));
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				persona.setIdPersona(rs.getString("idPersona"));
+				persona.setIdentificacion(rs.getInt("identificacion"));
+				persona.setNombreCliente(rs.getString("nombreCliente"));
+				persona.setPrimerApellido(rs.getString("primerApellido"));
+				persona.setSegundoApellido(rs.getString("segundoApellido"));
+				persona.setFechaNacimiento(rs.getDate("fechaNacimiento").toString());
+				persona.setNumeroTelefono(rs.getInt("numeroTelefono"));
+				persona.setEmail(rs.getString("email"));
+				
+
+				JOptionPane.showMessageDialog(null, "Detalles de la persona:\n"
+						+ "idPersona: " +persona.getIdPersona() +"\n"+
+				"Identificacion: "+persona.getIdentificacion()+"\n"+
+						"Primer apellido: " +persona.getPrimerApellido()+"\n"+
+						"Segundo apellido: " +persona.getSegundoApellido()+"\n"+
+						"FechaNacimiento: " +persona.getFechaNacimiento()+"\n"+
+						"Numero telefonico: " +persona.getNumeroTelefono()+"\n"+
+						"email: " +persona.getEmail()+"\n"+
+						"Cuentas asociadas: " +obtenerCuenta(tabla));				
+			}
+			
+			
+		}catch (SQLException e) {
+            System.err.println(e);
+            //return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+	}
+	
+	//Se obtener las cuentas asociadas para luego pasarselas a obtener detalles del cliente
+	public String obtenerCuenta (JTable tabla) { 
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		String cuentaString = "";
+		ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
+		
+		String sql = "SELECT numeroCuenta FROM PersonaCuenta where identificacion = "+tabla.getValueAt(tabla.getSelectedRow(), 3);
+		
+		try {
+			ps = con.prepareStatement(sql);
+//			ps.setString(1, tabla.getValueAt(tabla.getSelectedRow(),tabla.getSelectedColumn()));
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int i = 0;
+				Cuenta cuenta = new Cuenta();
+				cuenta.setNumeroCuenta(rs.getInt("numerocuenta"));
+				cuentas.add(cuenta);
+				cuentaString += cuentas.get(i).getNumeroCuenta()+", ";
+				i++;
+			}
+//			for (int  i = 0; i<= cuentas.size(); i++) {
+//				cuentaString += cuentas.get(i).getNumeroCuenta()+", ";
+//			}
+			if(cuentaString == "") {
+				return "El cliente aun no posee cuentas asociadas";
+			}
+			return cuentaString;
+			
+			
+		}catch (SQLException e) {
+            System.err.println(e);
+            //return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+		return cuentaString;	
 	
 		
 		
 	}
+	
+}
 	
 	
 

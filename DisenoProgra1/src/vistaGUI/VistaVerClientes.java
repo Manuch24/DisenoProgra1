@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.ScrollPane;
 import java.awt.Panel;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VistaVerClientes extends JFrame {
 
@@ -21,6 +23,7 @@ public class VistaVerClientes extends JFrame {
 	private JButton btnCargar;
 	private JScrollPane scrollPane;
 	private JTable tableClientes;
+	private JButton btnVerDetalles;
 
 	/**
 	 * Launch the application.
@@ -54,7 +57,7 @@ public class VistaVerClientes extends JFrame {
 		contentPane.add(btnCargar);
 		
 		btnVolver = new JButton("Volver");
-		btnVolver.setBounds(169, 10, 85, 21);
+		btnVolver.setBounds(490, 354, 85, 21);
 		contentPane.add(btnVolver);
 		
 		scrollPane = new JScrollPane();
@@ -63,6 +66,14 @@ public class VistaVerClientes extends JFrame {
 		
 		tableClientes = new JTable();
 		scrollPane.setViewportView(tableClientes);
+		
+		btnVerDetalles = new JButton("Ver Detalles");
+		btnVerDetalles.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnVerDetalles.setBounds(210, 10, 85, 21);
+		contentPane.add(btnVerDetalles);
 	}
 
 
@@ -74,5 +85,8 @@ public class VistaVerClientes extends JFrame {
 	}
 	public JTable getTableClientes() {
 		return tableClientes;
+	}
+	public JButton getBtnVerDetalles() {
+		return btnVerDetalles;
 	}
 }

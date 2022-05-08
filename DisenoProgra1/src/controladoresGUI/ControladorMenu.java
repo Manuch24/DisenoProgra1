@@ -11,6 +11,7 @@ import vistaGUI.VistaCuenta;
 import vistaGUI.VistaMenu;
 import vistaGUI.VistaPersona;
 import vistaGUI.VistaVerClientes;
+import vistaGUI.VistaVerCuentas;
 
 public class ControladorMenu implements ActionListener {
 
@@ -29,6 +30,7 @@ public class ControladorMenu implements ActionListener {
 		this.vista.getBtnRegistarCuenta().addActionListener(this);
 		this.vista.getBtnRgistrarCliente().addActionListener(this);
 		this.vista.getBtnVerClientes().addActionListener(this);
+		this.vista.getBtnVerCuentas().addActionListener(this);
 	}
 	
 	public void iniciar() {
@@ -61,8 +63,13 @@ public class ControladorMenu implements ActionListener {
 			ControladorVerClientes controladorVerClientes = new ControladorVerClientes(vistaVerClientes);
 			controladorVerClientes.iniciar();
 			vista.setVisible(false);
-
 		}
+		if (e.getSource() == vista.getBtnVerCuentas()) {
+			VistaVerCuentas vistaVerCuentas = new VistaVerCuentas();
+			ControladorVerCuentas controladorVerCuentas = new ControladorVerCuentas(vistaVerCuentas);
+			controladorVerCuentas.iniciar();
+			vista.setVisible(false);
 
+	}
 	}
 }

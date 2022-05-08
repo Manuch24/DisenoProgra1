@@ -10,24 +10,22 @@ import consultasDAO.CuentaDAO;
 import consultasDAO.PersonaDAO;
 import logicadenegocios.Cuenta;
 import logicadenegocios.Persona;
-import vistaGUI.VistaCuenta;
 import vistaGUI.VistaMenu;
-import vistaGUI.VistaPersona;
 import vistaGUI.VistaVerClientes;
+import vistaGUI.VistaVerCuentas;
 
-public class ControladorVerClientes implements ActionListener {
+public class ControladorVerCuentas implements ActionListener {
 
 	private VistaMenu vistaMenu;
-	private VistaVerClientes vista;
+	private VistaVerCuentas vista;
 	private PersonaDAO personaDAO;
 	private CuentaDAO cuentaDAO;
 	private Cuenta cuenta;
-	private Persona persona;
+
 		
 	
-	public ControladorVerClientes(VistaVerClientes vista ) {
+	public ControladorVerCuentas(VistaVerCuentas vista ) {
 		this.vista = vista;
-		this.persona = new Persona();
 		this.cuenta = new Cuenta();
 		this.cuentaDAO = new CuentaDAO();
 		this.personaDAO = new PersonaDAO();
@@ -43,7 +41,7 @@ public class ControladorVerClientes implements ActionListener {
 	}
 	
 	public void listarClientes(JTable tabla) throws SQLException {
-		personaDAO.listarClientes(tabla);
+		cuentaDAO.consultarCuentasInfo(tabla);
 	}
 	
 	public void volver() {
@@ -54,9 +52,8 @@ public class ControladorVerClientes implements ActionListener {
 	}
 	
 	public void verDetalles() {
-		personaDAO.detallesPersona(vista.getTableClientes());
+		cuentaDAO.detallesCuenta(vista.getTableCuentas());
 	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() ==  vista.getBtnVolver()) {
@@ -64,7 +61,7 @@ public class ControladorVerClientes implements ActionListener {
 		}
 		if(e.getSource() ==  vista.getBtnCargar()) {
 			try {
-				listarClientes(vista.getTableClientes());
+				listarClientes(vista.getTableCuentas());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -72,9 +69,7 @@ public class ControladorVerClientes implements ActionListener {
 		}
 		if(e.getSource() == vista.getBtnVerDetalles()) {
 			verDetalles();
-
 		}
-
+		
 	}
-
 }

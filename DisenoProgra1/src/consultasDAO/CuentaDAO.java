@@ -3,7 +3,12 @@ package consultasDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import conexion.conexion;
 import logicadenegocios.Cuenta;
@@ -29,7 +34,7 @@ public class CuentaDAO extends conexion {
 			ps.setDate(3, date1);		
 			ps.setInt(4, cuenta.getSaldo());		
 			ps.setString(5, cuenta.getStatus());		
-			ps.setString(6, cuenta.getStatus());
+			ps.setString(6, cuenta.getPin());
 			
 			ps.execute();
 			return true;
@@ -170,5 +175,82 @@ public class CuentaDAO extends conexion {
             }
         }
 		
+	}
+	
+	public void consultarCuentasInfo(JTable tabla) throws SQLException {
+		DefaultTableModel modelo = new DefaultTableModel();
+		tabla.setModel(modelo);
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+
+		String sql = "SELECT  Cuenta.numeroCuenta, Cuenta.estatus, Cuenta.saldo, Persona.primerApellido, "
+				+ "Persona.segundoApellido, Persona.nombreCliente  FROM Persona INNER JOIN personaCuenta ON "
+				+ "Persona.identificacion = personaCuenta.identificacion INNER JOIN Cuenta ON "
+				+ "Cuenta.numeroCuenta = personaCuenta.numeroCuenta order by Cuenta.saldo desc\r\n"
+				+ "";
+		ps = con.prepareStatement(sql);
+		rs = ps.executeQuery();
+
+		ResultSetMetaData rsMd = rs.getMetaData();
+		int cantidadColumna = rsMd.getColumnCount();
+
+		modelo.addColumn("Numero Cuenta");
+		modelo.addColumn("Estatus");
+		modelo.addColumn("Saldo");
+		modelo.addColumn("Primer Apellido");
+		modelo.addColumn("Segundo apellido");
+		modelo.addColumn("Nombre");
+
+
+		while(rs.next()) {
+			Object[] filas = new Object[cantidadColumna];
+
+			for(int i = 0; i<cantidadColumna; i++) {
+				filas[i] = rs.getObject(i+1);
+				System.out.println(rs.getObject(i+1));
+			}
+			modelo.addRow(filas);
+		}
+	}
+	
+	public void detallesCuenta(JTable tabla) {
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		Cuenta cuenta = new Cuenta();
+		
+		String sql = "SELECT * FROM Cuenta WHERE numeroCuenta ="+tabla.getValueAt(tabla.getSelectedRow(), 0);
+		
+		try {
+			ps = con.prepareStatement(sql);
+//			ps.setString(1, tabla.getValueAt(tabla.getSelectedRow(),tabla.getSelectedColumn()));
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				cuenta.setNumeroCuenta(rs.getInt("numeroCuenta"));
+				cuenta.setFechaCreacion(rs.getDate("fechaCreacion").toString());
+				cuenta.setSaldo(rs.getInt("saldo"));
+				cuenta.setStatus(rs.getString("estatus"));
+				cuenta.setPin(rs.getString("pin"));
+				JOptionPane.showMessageDialog(null, "Detalles de la cuenta:\n"
+						+ "Numero de cuenta: " + cuenta.getNumeroCuenta()+"\n"+
+				"Fecha de creacion: "+cuenta.getFechaCreacion()+"\n"+
+						"Saldo: " +cuenta.consultarSaldo()+"\n"
+						+"estatus: " + cuenta.getStatus()+"\n"
+						+ "Pin: " +cuenta.getPin() +"");				
+			}
+			
+			
+		}catch (SQLException e) {
+            System.err.println(e);
+            //return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
 	}
 }
