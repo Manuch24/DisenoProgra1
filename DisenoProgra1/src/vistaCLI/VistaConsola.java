@@ -6,6 +6,7 @@ import controladoresCLI.ControladorPersona;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public class VistaConsola {
 	
 	}
 	
-	public static void main(String[] args) throws IOException, ParseException {
+	public static void main(String[] args) throws IOException, ParseException, SQLException {
 		Scanner reader = new Scanner(System.in);
 	    boolean salir = false;
 	 
@@ -37,7 +38,9 @@ public class VistaConsola {
 	   		System.out.println();
 	    	System.out.println("1. Registrar cliente ");
 	    	System.out.println("2. Registrar cuenta ");
-	    	System.out.println("3. Salir");
+	    	System.out.println("3. Cambiar Pin");
+	    	System.out.println("4. Salir");
+	    	
 	    		
 	    	int opcion = reader.nextInt();
 	        switch (opcion) 
@@ -52,6 +55,12 @@ public class VistaConsola {
 	            	nuevoRegistroCuenta.cliRegistrarCuenta();
 	            	break;
 	            case 3:
+	            	ControladorCuenta cambioPin = new ControladorCuenta();
+	            	cambioPin.solicitarCambioPin();
+	            	break;
+	            
+	            
+	            case 4:
 	        
 	            	System.out.println("Saliendo del proghrama");
 	            	salir = true;

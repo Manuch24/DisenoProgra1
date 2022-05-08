@@ -76,4 +76,99 @@ public class CuentaDAO extends conexion {
 
 		}
 	}
+	
+	public boolean verificarExistenciaCuenta(int numCuenta) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		boolean opcion=false;
+		
+		String sql="select Cuenta.numeroCuenta from Cuenta where Cuenta.numeroCuenta="+numCuenta;
+		//System.out.println(sql);
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				//rs.getInt(0);
+				opcion=true;
+			}
+		}catch(SQLException e) {
+			System.err.println(e);
+			return opcion;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}
+		
+		 
+		return opcion;
+	}
+	
+	public String buscarPin(int numCuenta) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		String cantidad = "";
+
+		String sql = "select Cuenta.pin from Cuenta where Cuenta.numeroCuenta="+numCuenta;
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getString("pin"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}
+		return "";
+	}
+	
+	public void actualizarPin(String nuevoPin, int numCuenta) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		//String cantidad = "";
+
+		String sql = "update Cuenta Set pin=(?) where Cuenta.numeroCuenta="+numCuenta;
+		try {
+            
+            ps = con.prepareStatement(sql);
+
+           
+            
+            ps = con.prepareStatement(sql);
+            ps.setString(1,nuevoPin);
+            
+            ps.execute();
+            //return true;
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            //return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+		
+	}
 }
