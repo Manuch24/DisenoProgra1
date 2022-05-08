@@ -14,6 +14,9 @@ public class VistaVerCuentas extends JFrame {
 
 	private JPanel contentPane;
 	private JTable tableCuentas;
+	private JButton btnVolver;
+	private JButton btnVerDetalles;
+	private JButton btnCargar;
 
 	/**
 	 * Launch the application.
@@ -42,15 +45,15 @@ public class VistaVerCuentas extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnCargar = new JButton("Cargar cuentas");
+		btnCargar = new JButton("Cargar cuentas");
 		btnCargar.setBounds(10, 10, 157, 21);
 		contentPane.add(btnCargar);
 		
-		JButton btnVerDetalles = new JButton("Ver detalles");
+		btnVerDetalles = new JButton("Ver detalles");
 		btnVerDetalles.setBounds(180, 10, 85, 21);
 		contentPane.add(btnVerDetalles);
 		
-		JButton btnVolver = new JButton("Volver");
+		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(476, 319, 85, 21);
 		contentPane.add(btnVolver);
 		
@@ -60,5 +63,17 @@ public class VistaVerCuentas extends JFrame {
 		
 		tableCuentas = new JTable();
 		scrollPane.setViewportView(tableCuentas);
+	}
+	public JTable getTableCuentas() {
+		return tableCuentas;
+	}
+	public JButton getBtnVolver() {
+		return btnVolver;
+	}
+	public JButton getBtnVerDetalles() {
+		return btnVerDetalles;
+	}
+	public JButton getBtnCargar() {
+		return btnCargar;
 	}
 }

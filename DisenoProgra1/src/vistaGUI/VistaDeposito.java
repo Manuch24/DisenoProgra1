@@ -15,6 +15,8 @@ public class VistaDeposito extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtNumeroCuenta;
 	private JTextField txtMonto;
+	private JButton btnDepositar;
+	private JButton btnVolver;
 
 	/**
 	 * Launch the application.
@@ -61,18 +63,24 @@ public class VistaDeposito extends JFrame {
 		lblNewLabel_1.setBounds(47, 93, 96, 13);
 		contentPane.add(lblNewLabel_1);
 		
-		JButton btnVolver = new JButton("Volver");
+		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(341, 232, 85, 21);
 		contentPane.add(btnVolver);
 		
-		JButton btnNewButton = new JButton("Registrar");
-		btnNewButton.setBounds(201, 138, 85, 21);
-		contentPane.add(btnNewButton);
+		btnDepositar = new JButton("Depositar");
+		btnDepositar.setBounds(201, 138, 85, 21);
+		contentPane.add(btnDepositar);
 	}
 	public JTextField getTxtNumeroCuenta() {
 		return txtNumeroCuenta;
 	}
 	public JTextField getTxtMonto() {
 		return txtMonto;
+	}
+	public JButton getBtnDepositar() {
+		return btnDepositar;
+	}
+	public JButton getBtnVolver() {
+		return btnVolver;
 	}
 }
