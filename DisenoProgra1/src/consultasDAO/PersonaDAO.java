@@ -127,8 +127,8 @@ public class PersonaDAO extends conexion  {
 		
 		modelo.addColumn("Primer apellido");
 		modelo.addColumn("Segundo apellido");
-		modelo.addColumn("Nombre:");
-		modelo.addColumn("Primer apellido:");
+		modelo.addColumn("Nombre");
+		modelo.addColumn("Identificacion:");
 		
 		
 		while(rs.next()) {
@@ -142,6 +142,8 @@ public class PersonaDAO extends conexion  {
 		}
 			
 		}
+	
+	
 		
 		
 	}

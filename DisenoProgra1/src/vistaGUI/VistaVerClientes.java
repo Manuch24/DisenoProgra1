@@ -12,13 +12,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.ScrollPane;
 import java.awt.Panel;
+import javax.swing.JScrollPane;
 
 public class VistaVerClientes extends JFrame {
 
 	private JPanel contentPane;
 	private JButton btnVolver;
 	private JButton btnCargar;
-	private Panel panel;
+	private JScrollPane scrollPane;
 	private JTable tableClientes;
 
 	/**
@@ -56,20 +57,12 @@ public class VistaVerClientes extends JFrame {
 		btnVolver.setBounds(169, 10, 85, 21);
 		contentPane.add(btnVolver);
 		
-		panel = new Panel();
-		panel.setBounds(10, 64, 497, 266);
-		contentPane.add(panel);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(49, 84, 403, 195);
+		contentPane.add(scrollPane);
 		
 		tableClientes = new JTable();
-		tableClientes.setUpdateSelectionOnSort(false);
-		tableClientes.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Primer Apellido", "Segundo Apellido", "Nombre", "Identificacion"
-			}
-		));
-		panel.add(tableClientes);
+		scrollPane.setViewportView(tableClientes);
 	}
 
 
