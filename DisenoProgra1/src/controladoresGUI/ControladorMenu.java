@@ -10,6 +10,7 @@ import logicadenegocios.Persona;
 import vistaGUI.VistaCuenta;
 import vistaGUI.VistaMenu;
 import vistaGUI.VistaPersona;
+import vistaGUI.VistaVerClientes;
 
 public class ControladorMenu implements ActionListener {
 
@@ -21,11 +22,13 @@ public class ControladorMenu implements ActionListener {
 	private ControladorPersona controladorPersona;
 	private ControladorCuenta controladorCuenta;
 	
+	
 	public ControladorMenu (VistaMenu vista) {
 	
 		this.vista = vista;
 		this.vista.getBtnRegistarCuenta().addActionListener(this);
 		this.vista.getBtnRgistrarCliente().addActionListener(this);
+		this.vista.getBtnVerClientes().addActionListener(this);
 	}
 	
 	public void iniciar() {
@@ -52,8 +55,14 @@ public class ControladorMenu implements ActionListener {
 			this.controladorPersona= new ControladorPersona(modelo, PersonaDAO, vistaPersona);
 			controladorPersona.iniciar();
 			vista.setVisible(false);
-		
-	}
+		}
+		if (e.getSource() == vista.getBtnVerClientes()) {
+			VistaVerClientes vistaVerClientes = new VistaVerClientes();
+			ControladorVerClientes controladorVerClientes = new ControladorVerClientes(vistaVerClientes);
+			controladorVerClientes.iniciar();
+			vista.setVisible(false);
 
-}
+		}
+
+	}
 }

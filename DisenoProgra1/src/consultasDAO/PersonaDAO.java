@@ -3,9 +3,12 @@ package consultasDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import conexion.conexion;
 import logicadenegocios.Persona;
@@ -61,19 +64,12 @@ public class PersonaDAO extends conexion  {
 		
 		String sql = "SELECT MAX(cantPersonas) as cantidadPersonas FROM Persona";
 		try {
-			
-			
 			ps = con.prepareStatement(sql);
-			
-			
 			
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				cantidad = rs.getInt("cantidadPersonas"); 
-				
-					
+				cantidad = rs.getInt("cantidadPersonas");	
 				}
-			
 			return cantidad +1;
 					
 		}catch (SQLException e) {
@@ -115,5 +111,40 @@ public class PersonaDAO extends conexion  {
 		} 
 	}
 	
+	public void listarClientes (JTable tabla) throws SQLException {
+		DefaultTableModel modelo = new DefaultTableModel();
+		tabla.setModel(modelo);
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		
+		String sql = "SELECT primerApellido,segundoApellido,nombreCliente,identificacion FROM Persona order by primerApellido asc";
+		ps = con.prepareStatement(sql);
+		rs = ps.executeQuery();
+		
+		ResultSetMetaData rsMd = rs.getMetaData();
+		int cantidadColumna = rsMd.getColumnCount();
+		
+		modelo.addColumn("Primer apellido");
+		modelo.addColumn("Segundo apellido");
+		modelo.addColumn("Nombre:");
+		modelo.addColumn("Primer apellido:");
+		
+		
+		while(rs.next()) {
+			Object[] filas = new Object[cantidadColumna];
+			
+			for(int i = 0; i<cantidadColumna; i++) {
+				filas[i] = rs.getObject(i+1);
+				System.out.println(rs.getObject(i+1));
+			}
+			modelo.addRow(filas);
+		}
+			
+		}
+		
+		
+	}
 	
-}
+	
+

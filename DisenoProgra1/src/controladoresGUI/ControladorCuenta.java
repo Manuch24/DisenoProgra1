@@ -74,7 +74,8 @@ public class ControladorCuenta implements ActionListener{
 				modelo.setStatus("Activo");
 				
 				if(cuentaDAO.registrar(modelo, Integer.parseInt(vista.getCbxCliente().getSelectedItem().toString()))) {
-					JOptionPane.showMessageDialog(null, "Registro Guardado");
+					
+					JOptionPane.showMessageDialog(null, "Se han guardado");
 				}else {
 					JOptionPane.showMessageDialog(null, "Error al guardar");
 				}

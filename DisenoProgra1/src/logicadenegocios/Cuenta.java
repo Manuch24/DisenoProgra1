@@ -27,7 +27,7 @@ public class Cuenta {
 		this.pin=pPin;
 		this.status="Activo";
 		this.operaciones = new ArrayList<Operacion>();
-		numeroCuenta++;
+//		numeroCuenta++;
 	}
 	
 	

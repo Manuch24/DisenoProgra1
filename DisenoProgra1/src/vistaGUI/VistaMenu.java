@@ -7,12 +7,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VistaMenu extends JFrame {
 
 	private JPanel contentPane;
 	private JButton btnRgistrarCliente;
 	private JButton btnRegistarCuenta;
+	private JButton btnVerClientes;
 
 	/**
 	 * Launch the application.
@@ -48,11 +51,22 @@ public class VistaMenu extends JFrame {
 		btnRegistarCuenta = new JButton("Registar Cuenta");
 		btnRegistarCuenta.setBounds(253, 44, 147, 21);
 		contentPane.add(btnRegistarCuenta);
+		
+		btnVerClientes = new JButton("Ver Clientes");
+		btnVerClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnVerClientes.setBounds(65, 119, 162, 21);
+		contentPane.add(btnVerClientes);
 	}
 	public JButton getBtnRgistrarCliente() {
 		return btnRgistrarCliente;
 	}
 	public JButton getBtnRegistarCuenta() {
 		return btnRegistarCuenta;
+	}
+	public JButton getBtnVerClientes() {
+		return btnVerClientes;
 	}
 }
