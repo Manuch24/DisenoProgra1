@@ -19,12 +19,12 @@ public class Operacion {
 		this.montoOperacion = pMontoOperacion;
 	}
 	//sin monto
-	public Operacion(String pTipo, Date pFechaOperacion, boolean pHayComision, int pMontoComision) {
+	public Operacion(String pTipo, Date pFechaOperacion, boolean pHayComision, int pMontoOperacion) {
 		super();
 		this.tipo = pTipo;
 		this.fechaOperacion = pFechaOperacion;
 		this.hayComision = pHayComision;
-		this.montoComision = pMontoComision;
+		this.montoOperacion = pMontoOperacion;
 	}
 	
 	public String getTipo() {

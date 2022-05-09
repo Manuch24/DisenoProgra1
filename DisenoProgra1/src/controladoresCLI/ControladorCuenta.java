@@ -4,9 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import consultasDAO.CuentaDAO;
 import logicadenegocios.Cuenta;
+import logicadenegocios.Operacion;
 import Validaciones.Validaciones;
 
 public class ControladorCuenta {
@@ -86,4 +89,24 @@ public class ControladorCuenta {
 		}
 		
 	}
+	
+	public int depositoColones(int montoDeposito, int numeroCuenta,CuentaDAO dao) {
+		double montoComision=0;
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		//formatter.format(date);
+		
+		Operacion op = new Operacion("deposito",date,false,0,montoDeposito);
+		dao.realizarDeposito(op, numeroCuenta);
+		
+		System.out.println("Estimado usuario, se han depositado correctamente "+montoDeposito+".00 colones");
+		System.out.println("[El monto real depositado a su cuenta "+numeroCuenta+" es de "+montoDeposito+" colones]");
+		System.out.println("[El monto cobreado por concepto de comision fue de "+montoComision+" colones, que fueron rebajados automáticamente de su saldo actual]");
+		
+		return montoDeposito;
+	}
+	
+	
+
 }

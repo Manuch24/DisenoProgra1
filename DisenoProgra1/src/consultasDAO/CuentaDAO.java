@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import conexion.conexion;
 import logicadenegocios.Cuenta;
 import logicadenegocios.Persona;
+import logicadenegocios.Operacion;
 
 public class CuentaDAO extends conexion {
 
@@ -252,5 +253,45 @@ public class CuentaDAO extends conexion {
                 System.err.println(e);
             }
         }
+	}
+	
+	public boolean realizarDeposito(Operacion operacion,int numCuenta) {
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		
+		String sql = "{call realizarDeposito (?,?,?,?,?,?) }";
+		
+		try {
+			
+			
+			ps = con.prepareStatement(sql);
+			
+			long timeInMilliSeconds = operacion.getFechaOperacion().getTime();
+			
+			java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
+			
+			//String com = new
+			
+			ps.setInt(1, numCuenta);
+			ps.setString(2, operacion.getTipo());		
+			ps.setDate(3, date1);		
+			ps.setString(4, String.valueOf(operacion.isHayComision()));		
+			ps.setInt(5, operacion.getMontoOperacion());		
+			ps.setInt(6, operacion.getMontoComision());
+			
+			ps.execute();
+			return true;
+					
+		}catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+			
+		}
 	}
 }

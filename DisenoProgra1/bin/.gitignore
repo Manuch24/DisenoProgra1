@@ -1,6 +1,5 @@
-/consultasDAO/
-/controladoresCLI/
-/controladoresGUI/
-/logicadenegocios/
-/vistaCLI/
 /vistaGUI/
+/controladoresCLI/
+/vistaCLI/
+/consultasDAO/
+/logicadenegocios/
