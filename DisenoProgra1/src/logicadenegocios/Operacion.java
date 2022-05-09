@@ -27,6 +27,10 @@ public class Operacion {
 		this.montoOperacion = pMontoOperacion;
 	}
 	
+	public Operacion() {
+		
+	}
+	
 	public String getTipo() {
 		return tipo;
 	}

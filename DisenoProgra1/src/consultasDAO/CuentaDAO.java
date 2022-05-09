@@ -240,7 +240,7 @@ public class CuentaDAO extends conexion {
 						"Saldo: " +cuenta.consultarSaldo()+"\n"
 						+"estatus: " + cuenta.getStatus()+"\n"
 						+ "Pin: " +cuenta.getPin() +"");				
-			}
+			} 
 			
 			
 		}catch (SQLException e) {
@@ -269,7 +269,7 @@ public class CuentaDAO extends conexion {
 			long timeInMilliSeconds = operacion.getFechaOperacion().getTime();
 			
 			java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
-			
+		
 			//String com = new
 			
 			ps.setInt(1, numCuenta);
@@ -294,4 +294,33 @@ public class CuentaDAO extends conexion {
 			
 		}
 	}
+	public boolean verificarCuenta (int numeroCuenta) {
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+	
+
+		String sql = "SELECT numeroCuenta FROM Cuenta WHERE numeroCuenta = ?";
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				rs.getInt("numeroCuenta"); 
+			}
+		
+			return true;
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+		}
+	}
+	
 }
