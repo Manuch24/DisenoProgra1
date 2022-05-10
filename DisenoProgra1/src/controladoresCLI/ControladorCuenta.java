@@ -11,6 +11,7 @@ import consultasDAO.CuentaDAO;
 import logicadenegocios.Cuenta;
 import logicadenegocios.Operacion;
 import Validaciones.Validaciones;
+import consultasDAO.OperacionDAO;
 
 public class ControladorCuenta {
 	
@@ -90,7 +91,7 @@ public class ControladorCuenta {
 		
 	}
 	
-	public int depositoColones(int montoDeposito, int numeroCuenta,CuentaDAO dao) {
+	public int depositoColones(int montoDeposito, int numeroCuenta,OperacionDAO dao) {
 		double montoComision=0;
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

@@ -6,11 +6,11 @@ public class Operacion {
 	private String tipo;
 	private Date fechaOperacion;
 	private boolean hayComision;
-	private int montoComision;
-	private int montoOperacion;
+	private float montoComision;
+	private float montoOperacion;
 	
 	
-	public Operacion(String pTipo, Date pFechaOperacion, boolean pHayComision, int pMontoComision, int pMontoOperacion) {
+	public Operacion(String pTipo, Date pFechaOperacion, boolean pHayComision, float pMontoComision, float pMontoOperacion) {
 		super();
 		this.tipo = pTipo;
 		this.fechaOperacion = pFechaOperacion;
@@ -19,7 +19,7 @@ public class Operacion {
 		this.montoOperacion = pMontoOperacion;
 	}
 	//sin monto
-	public Operacion(String pTipo, Date pFechaOperacion, boolean pHayComision, int pMontoOperacion) {
+	public Operacion(String pTipo, Date pFechaOperacion, boolean pHayComision, float pMontoOperacion) {
 		super();
 		this.tipo = pTipo;
 		this.fechaOperacion = pFechaOperacion;
@@ -49,16 +49,16 @@ public class Operacion {
 	public void setHayComision(boolean hayComision) {
 		this.hayComision = hayComision;
 	}
-	public int getMontoComision() {
+	public float getMontoComision() {
 		return montoComision;
 	}
-	public void setMontoComision(int montoComision) {
+	public void setMontoComision(float montoComision) {
 		this.montoComision = montoComision;
 	}
-	public int getMontoOperacion() {
+	public float getMontoOperacion() {
 		return montoOperacion;
 	}
-	public void setMontoOperacion(int montoOperacion) {
+	public void setMontoOperacion(float montoOperacion) {
 		this.montoOperacion = montoOperacion;
 	}
 	

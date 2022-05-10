@@ -132,7 +132,7 @@ public class Cuenta {
 		int monto = 0;
 		for (int i = 0; i <= getOperaciones().size(); i++ ) {
 			if (getOperaciones().get(i).getTipo().equals("Deposito")) {
-				monto =+ getOperaciones().get(i).getMontoComision();
+				monto =(int) + getOperaciones().get(i).getMontoComision();
 			}			
 		}
 		return monto;
@@ -142,7 +142,7 @@ public class Cuenta {
 		int monto = 0;
 		for (int i = 0; i <= getOperaciones().size(); i++ ) {
 			if (getOperaciones().get(i).getTipo().equals("Retiro")) {
-				monto =+ getOperaciones().get(i).getMontoComision();
+				monto =(int) + getOperaciones().get(i).getMontoComision();
 			}			
 		}
 		return monto;

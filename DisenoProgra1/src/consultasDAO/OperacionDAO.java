@@ -2,13 +2,19 @@ package consultasDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import conexion.conexion;
 import logicadenegocios.Persona;
+import logicadenegocios.Cuenta;
+import logicadenegocios.Operacion;
+
 
 public class OperacionDAO extends conexion {
-
+	
+	
+	
 	public boolean registrar(Persona persona, String date ) {
 		PreparedStatement ps = null;
 		Connection con = getConexion();
@@ -47,5 +53,184 @@ public class OperacionDAO extends conexion {
 			
 		}
 		
+	}
+	
+	public void actualizarPin(String nuevoPin, int numCuenta) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		//String cantidad = "";
+
+		String sql = "update Cuenta Set pin=(?) where Cuenta.numeroCuenta="+numCuenta;
+		try {
+            
+            ps = con.prepareStatement(sql);
+
+           
+            
+            ps = con.prepareStatement(sql);
+            ps.setString(1,nuevoPin);
+            
+            ps.execute();
+            //return true;
+
+        } catch (SQLException e) {
+            System.err.println(e);
+            //return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+		
+	}
+	
+	public boolean realizarDeposito(Operacion operacion,int numCuenta) {
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		
+		String sql = "{call realizarDeposito (?,?,?,?,?,?) }";
+		
+		try {
+			
+			
+			ps = con.prepareStatement(sql);
+			
+			long timeInMilliSeconds = operacion.getFechaOperacion().getTime();
+			
+			java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
+			
+			//String com = new
+			
+			ps.setInt(1, numCuenta);
+			ps.setString(2, operacion.getTipo());		
+			ps.setDate(3, date1);		
+			ps.setString(4, String.valueOf(operacion.isHayComision()));		
+			ps.setFloat(5, operacion.getMontoOperacion());		
+			ps.setFloat(6, operacion.getMontoComision());
+			
+			ps.execute();
+			return true;
+					
+		}catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+			
+		}
+	}
+	
+	public int verificarCantTransaccionesGratis(int numCuenta) {
+		int cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "select count(numeroCuenta) as Cant from cuentaOperacion \r\n"
+				+ "inner join Operacion on Operacion.idOperacion=cuentaOperacion.idOperacion where cuentaOperacion.numeroCuenta="+numCuenta+" and (Operacion.tipo='retiro' or Operacion.tipo='deposito')";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getInt("Cant"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	
+	public boolean realizarRetiro(Operacion operacion,int numCuenta) {
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		
+		String sql = "{call realizarRetiro (?,?,?,?,?,?) }";
+		
+		try {
+			
+			
+			ps = con.prepareStatement(sql);
+			
+			long timeInMilliSeconds = operacion.getFechaOperacion().getTime();
+			
+			java.sql.Date date1 = new java.sql.Date(timeInMilliSeconds);
+			
+			//String com = new
+			
+			ps.setInt(1, numCuenta);
+			ps.setString(2, operacion.getTipo());		
+			ps.setDate(3, date1);		
+			ps.setString(4, String.valueOf(operacion.isHayComision()));		
+			ps.setFloat(5, operacion.getMontoOperacion());		
+			ps.setFloat(6, operacion.getMontoComision());
+			
+			ps.execute();
+			return true;
+					
+		}catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+			
+		}
+	}
+	public float confirmarSaldo(int numCuenta) {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "select Cuenta.saldo from Cuenta where Cuenta.numeroCuenta="+numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("saldo"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
 	}
 }
