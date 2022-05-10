@@ -8,6 +8,7 @@ import consultasDAO.PersonaDAO;
 import logicadenegocios.Cuenta;
 import logicadenegocios.Persona;
 import vistaGUI.VistaCuenta;
+import vistaGUI.VistaDeposito;
 import vistaGUI.VistaMenu;
 import vistaGUI.VistaPersona;
 import vistaGUI.VistaVerClientes;
@@ -17,12 +18,13 @@ public class ControladorMenu implements ActionListener {
 
 	private VistaPersona vistaPersona;
 	private VistaCuenta vistaCuenta;
+	private VistaDeposito vistaDeposito;
 	private VistaMenu vista;
 	
 	
 	private ControladorPersona controladorPersona;
 	private ControladorCuenta controladorCuenta;
-	
+	private ControladorDeposito controladorDeposito;
 	
 	public ControladorMenu (VistaMenu vista) {
 	
@@ -31,6 +33,7 @@ public class ControladorMenu implements ActionListener {
 		this.vista.getBtnRgistrarCliente().addActionListener(this);
 		this.vista.getBtnVerClientes().addActionListener(this);
 		this.vista.getBtnVerCuentas().addActionListener(this);
+		this.vista.getBtnDepositar().addActionListener(this);
 	}
 	
 	public void iniciar() {
@@ -69,7 +72,12 @@ public class ControladorMenu implements ActionListener {
 			ControladorVerCuentas controladorVerCuentas = new ControladorVerCuentas(vistaVerCuentas);
 			controladorVerCuentas.iniciar();
 			vista.setVisible(false);
-
+		}
+		if (e.getSource() == vista.getBtnDepositar()) {
+			VistaDeposito vistaDeposito = new VistaDeposito();
+			ControladorDeposito controladorDeposito = new ControladorDeposito(vistaDeposito);
+			controladorDeposito.iniciar();
+			vista.setVisible(false);
 	}
-	}
+}
 }

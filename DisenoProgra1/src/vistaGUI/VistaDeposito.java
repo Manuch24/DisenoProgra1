@@ -14,10 +14,10 @@ import javax.swing.JComboBox;
 public class VistaDeposito extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNumeroCuenta;
 	private JTextField txtMonto;
 	private JButton btnDepositar;
 	private JButton btnVolver;
+	private JComboBox cbxCuenta;
 
 	/**
 	 * Launch the application.
@@ -46,15 +46,6 @@ public class VistaDeposito extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Ingrese numero de cuenta");
-		lblNewLabel.setBounds(47, 38, 134, 13);
-		contentPane.add(lblNewLabel);
-		
-		txtNumeroCuenta = new JTextField();
-		txtNumeroCuenta.setBounds(191, 35, 96, 19);
-		contentPane.add(txtNumeroCuenta);
-		txtNumeroCuenta.setColumns(10);
-		
 		txtMonto = new JTextField();
 		txtMonto.setBounds(191, 87, 96, 19);
 		contentPane.add(txtMonto);
@@ -79,9 +70,14 @@ public class VistaDeposito extends JFrame {
 		JLabel lblNewLabel_2 = new JLabel("Moneda");
 		lblNewLabel_2.setBounds(358, 66, 45, 13);
 		contentPane.add(lblNewLabel_2);
-	}
-	public JTextField getTxtNumeroCuenta() {
-		return txtNumeroCuenta;
+		
+		cbxCuenta = new JComboBox();
+		cbxCuenta.setBounds(263, 34, 60, 21);
+		contentPane.add(cbxCuenta);
+		
+		JLabel lblNewLabel = new JLabel("Seleccione el numero de cuenta: ");
+		lblNewLabel.setBounds(47, 38, 167, 13);
+		contentPane.add(lblNewLabel);
 	}
 	public JTextField getTxtMonto() {
 		return txtMonto;
@@ -91,5 +87,8 @@ public class VistaDeposito extends JFrame {
 	}
 	public JButton getBtnVolver() {
 		return btnVolver;
+	}
+	public JComboBox getCbxCuenta() {
+		return cbxCuenta;
 	}
 }

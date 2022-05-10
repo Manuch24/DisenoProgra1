@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -254,6 +255,36 @@ public class CuentaDAO extends conexion {
             }
         }
 	}
+	
+	
+	public void listarCuentas(JComboBox cbx) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+
+		String sql = "SELECT numeroCuenta FROM Cuenta ";
+
+		try{
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			while(rs.next()){
+				cbx.addItem(rs.getInt("numeroCuenta"));
+			}
+			rs.close();
+		}catch(SQLException e){
+			System.err.println(e);
+		}finally{
+			try{
+				con.close();
+			}catch (SQLException e){
+				System.err.println(e);
+			}
+		} 
+	}
+
+	
+	
 	
 		
 }

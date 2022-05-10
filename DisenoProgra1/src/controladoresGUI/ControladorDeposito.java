@@ -2,10 +2,16 @@ package controladoresGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 import consultasDAO.CuentaDAO;
+import consultasDAO.OperacionDAO;
 import consultasDAO.PersonaDAO;
 import logicadenegocios.Cuenta;
+import logicadenegocios.Operacion;
 import logicadenegocios.Persona;
 import vistaGUI.VistaDeposito;
 import vistaGUI.VistaMenu;
@@ -20,6 +26,9 @@ public class ControladorDeposito implements ActionListener {
 	private CuentaDAO cuentaDAO;
 	private Cuenta cuenta;
 	private Persona persona;
+	private Operacion operacion;
+	private OperacionDAO operacionDAO;
+	
 		
 	
 	public ControladorDeposito(VistaDeposito vista ) {
@@ -28,13 +37,71 @@ public class ControladorDeposito implements ActionListener {
 		this.cuenta = new Cuenta();
 		this.cuentaDAO = new CuentaDAO();
 		this.personaDAO = new PersonaDAO();
-		this.v
+		this.cuenta = new Cuenta();
+		this.cuentaDAO = new CuentaDAO();
+		this.operacionDAO = new OperacionDAO();	
+		this.vista.getBtnDepositar().addActionListener(this);
+		this.vista.getBtnVolver().addActionListener(this);
+		this.vista.getCbxCuenta().addActionListener(this);
 	}
+	
+	public void iniciar() {
+		vista.setTitle("Realizar Deposito");
+		vista.setVisible(true);
+		vista.setLocationRelativeTo(null);
+		listarCuentas(vista.getCbxCuenta());
+		
+	}
+	
+	
+	public void volver() {
+		vista.setVisible(false);
+		VistaMenu vistaMenu = new VistaMenu();
+		ControladorMenu controladorMenu = new ControladorMenu(vistaMenu);
+		controladorMenu.iniciar();
+	}
+	
+	public void listarCuentas(JComboBox cbx) {
+		cuentaDAO.listarCuentas(cbx);
+	}
+	
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.getSource() == vista.getBtnVolver()) {
+			volver();
 	}
+		if (e.getSource() == vista.getBtnDepositar()) {
+			if(cuenta.validarMonto(Integer.parseInt(vista.getTxtMonto().getText())) ==false) {
+				JOptionPane.showMessageDialog(null, "Error: Solo numeros positivos en el saldo incial","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+			cuenta.setNumeroCuenta(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()));
+			Date date = new Date();
+			int cantidadOperacionesGratis = 0;
+			float montoDeposito = Float.parseFloat(vista.getTxtMonto().getText());
+			float saldo = 0;
+			float montoComision = 0;
+			boolean comision = false;
+			cantidadOperacionesGratis = operacionDAO.verificarCantTransaccionesGratis(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString())) + 1;
+			
+			if (cantidadOperacionesGratis > 3) {
+				montoComision = (float) (montoDeposito * 0.02);
+				saldo = montoDeposito - montoComision;
+				comision = true;
+			} else {
+				saldo = montoDeposito;
+			}
+			
+			Operacion op = new Operacion("deposito", date, comision, montoComision, saldo);
+			operacionDAO.realizarDeposito(op, cantidadOperacionesGratis);
+			JOptionPane.showMessageDialog(null, "Estimado usuario, se han depositado correctamente \" + montoDeposito + \".00 colones \\n\"\r\n"
+					+ "				+ \"[El monto real depositado a su cuenta \" + numeroCuenta + \" es de \" + saldo + \" colones] \\n\"\r\n"
+					+ "				+ \"[El monto cobreado por concepto de comision fue de \" + montoComision\r\n"
+					+ "				+ \" colones, que fueron rebajados automáticamente de su saldo actual]","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
+
+			}
+		}
+}
 }
