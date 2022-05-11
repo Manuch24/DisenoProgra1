@@ -215,9 +215,36 @@ public class VistaConsola {
 	            	
 	            	
 	            case 10:
-	    	        
-	            	System.out.println("Saliendo del programa");
-	            	salir = true;
+	            	ControladorOperacion transferencia = new ControladorOperacion();
+	            	String transfeText ="";
+	            	System.out.println("Ingrese su número de cuenta: ");
+	            	boolean verifica=false;
+	            	Scanner input = new Scanner(System.in);
+	            	int cuentaRetiro=input.nextInt();
+	            	if(cuentaDAO.verificarExistenciaCuenta(cuentaRetiro)==true) {
+	            		System.out.println("Ingrese su número de pin: ");
+	            		String pin = input.next();
+	            		if(cuentaDAO.buscarPin(cuentaRetiro).equals(pin)) {
+	            			System.out.println("Ingrese el monto a transferir: ");
+	            			Float montoDepositar = input.nextFloat();
+	            			
+	            			System.out.println("Ingrese la cuenta destino");
+	            			int cuentaDepositar= input.nextInt();
+	            			if(cuentaDAO.verificarExistenciaCuenta(cuentaDepositar)==true) {
+	            				transfeText= transferencia.realizarTransferencia(cuentaRetiro, montoDepositar, cuentaDepositar, cuenta);
+	            				
+	            				System.out.println(transfeText);;
+	            			}else {
+	            				System.out.println("No existe la cuenta");
+	            			}
+	            		}else{
+	            			System.out.println("Fondos insuficientes");
+	            		}
+	            		
+	            	}else{
+	            		System.out.println("No existe cuenta");
+	            	}
+	            	
 	            	break;
 	            case 20:
 	    	        

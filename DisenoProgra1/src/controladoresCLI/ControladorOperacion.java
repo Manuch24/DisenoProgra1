@@ -80,8 +80,9 @@ public class ControladorOperacion {
 			montoComision = (float) (montoRetiro * 0.02);
 			montoRetiro+=montoComision;
 			comision = true;
+			System.out.println("aqui");
 		} 
-		String respuesta = "Estimado usuario, el monto de este retiro es: " + saldo + ".00 colones \n"
+		String respuesta = "Estimado usuario, el monto de este retiro es: " + saldo + " colones \n"
 				+ "[El monto cobrado por concepto de comisión fue de: " + montoComision +" colones, que fueron rebajados automáticamente de su saldo actual]";
 
 		if (dao.confirmarSaldo(numeroCuenta) >= (montoRetiro+montoComision)) {
@@ -125,22 +126,46 @@ public class ControladorOperacion {
 		return resultado;
 	}
 	
-	public String realizarTransferencia(int numCuenta,float monto, String pin) {
-		if (!cuentaDAO.buscarPin(numCuenta).equals(pin)) {
-			return "Pin incorrecto";
-		}
+	public String realizarTransferencia(int numCuentaRetiro,float monto, int numeroCuentaDestino , OperacionDAO dao) {
+		
 		
 		if(monto!= (int)monto) {
 			return "Error en el formato.";
 		}
 		
+		String retiroTransferencia[] = retiroColones(monto,numCuentaRetiro,dao).split(" ");
+		
+		float montoExtraido = Float.parseFloat(retiroTransferencia[8]);
+		float comisionExtraido = Float.parseFloat(retiroTransferencia[19]);
 		
 		
 		
-		String res = "";
+		depositoColonesTransferencia(montoExtraido,numeroCuentaDestino,dao);
 		
 		
+		
+		String res = "Estimado usuario, la transferencia de fondos se ejecutó satisfactoriamente.  \n"
+				+"El monto retirado de la cuenta origen y depositado en la cuenta destino es "+monto+" colones.  \n"
+				+"[El monto cobrado por concepto de comisión a la cuenta origen fue de "+comisionExtraido+" colones, que fueron rebajados automáticamente de su saldo actual]";
 		
 		return res;
 		}
+	
+	
+	public boolean depositoColonesTransferencia(float montoDeposito, int numeroCuenta, OperacionDAO dao) {
+		
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		// formatter.format(date);
+
+		
+		Operacion op = new Operacion("deposito", date, false, 0, montoDeposito);
+		if(dao.realizarDeposito(op, numeroCuenta)) {
+			return true;
+		}
+
+		return false;
+		
+	}
 }
