@@ -2,11 +2,14 @@ package controladoresGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
+import Servicios.BCCRCambioMoneda;
 import consultasDAO.CuentaDAO;
 import consultasDAO.OperacionDAO;
 import consultasDAO.PersonaDAO;
@@ -28,6 +31,7 @@ public class ControladorDeposito implements ActionListener {
 	private Persona persona;
 	private Operacion operacion;
 	private OperacionDAO operacionDAO;
+	private BCCRCambioMoneda cambioMoneda;
 	
 		
 	
@@ -38,6 +42,7 @@ public class ControladorDeposito implements ActionListener {
 		this.cuentaDAO = new CuentaDAO();
 		this.personaDAO = new PersonaDAO();
 		this.cuenta = new Cuenta();
+		this.cambioMoneda = new BCCRCambioMoneda();
 		this.cuentaDAO = new CuentaDAO();
 		this.operacionDAO = new OperacionDAO();	
 		this.vista.getBtnDepositar().addActionListener(this);
@@ -65,6 +70,67 @@ public class ControladorDeposito implements ActionListener {
 		cuentaDAO.listarCuentas(cbx);
 	}
 	
+	public  void depositoColones(float montoDeposito, int numeroCuenta, OperacionDAO dao) {
+		float saldo = 0;
+		float montoComision = 0;
+		boolean comision = false;
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		// formatter.format(date);
+
+		int cantidadOperacionesGratis = dao.verificarCantTransaccionesGratis(numeroCuenta) + 1;
+
+		if (cantidadOperacionesGratis > 3) {
+			montoComision = (float) (montoDeposito * 0.02);
+			saldo = montoDeposito - montoComision;
+			comision = true;
+		} else {
+			saldo = montoDeposito;
+		}
+
+		Operacion op = new Operacion("deposito", date, comision, montoComision, saldo);
+		dao.realizarDeposito(op, numeroCuenta);
+		JOptionPane.showMessageDialog(null, "Estimado usuario, se han depositado correctamente " + montoDeposito + ".00 colones \n"
+				+ "[El monto real depositado a su cuenta " + numeroCuenta + " es de " + saldo + " colones] \n"
+				+ "[El monto cobreado por concepto de comision fue de " + montoComision
+				+ " colones, que fueron rebajados automáticamente de su saldo actual]");
+		 
+	}
+	
+	public void depositoCambioMoneda(float montoDeposito, int numeroCuenta, OperacionDAO dao) {
+		float saldo = 0;
+		float montoComision = 0;
+		boolean comision = false;
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		
+		Calendar fecha = Calendar.getInstance();
+		fecha.getTimeInMillis();
+		// formatter.format(date);
+		float compraCambio = cambioMoneda.getVenta();
+		int cantidadOperacionesGratis = dao.verificarCantTransaccionesGratis(numeroCuenta) + 1;
+		montoDeposito = montoDeposito*compraCambio;
+		
+		if (cantidadOperacionesGratis > 3) {
+			montoComision = (float) (montoDeposito * 0.02);
+			saldo = montoDeposito - montoComision;
+			comision = true;
+		} else {
+			saldo = montoDeposito;
+		}
+
+		Operacion op = new Operacion("deposito", date, comision, montoComision, saldo);
+		dao.realizarDeposito(op, numeroCuenta);
+		JOptionPane.showMessageDialog(null, "Estimado usuario, se han depositado correctamente " + montoDeposito + ".00 dolares \n"
+				+ "[Según el BCCR, el tipo de cambio de compra del dólar de "+ fecha.getTimeInMillis() +" es: " + compraCambio +"\n"
+				+ "[El monto equivalente en colones es: " + montoDeposito+"\n"
+				+ "[El monto real depositado a su cuenta " + numeroCuenta + " es de " + saldo + " \n"
+				+ "[El monto cobreado por concepto de comision fue de " + montoComision
+				+ " colones, que fueron rebajados automáticamente de su saldo actual]");
+
+	}
 
 
 	@Override
@@ -72,35 +138,26 @@ public class ControladorDeposito implements ActionListener {
 		if (e.getSource() == vista.getBtnVolver()) {
 			volver();
 	}
-		if (e.getSource() == vista.getBtnDepositar()) {
+		if (e.getSource() == vista.getBtnDepositar()   ) {
 			if(cuenta.validarMonto(Integer.parseInt(vista.getTxtMonto().getText())) ==false) {
 				JOptionPane.showMessageDialog(null, "Error: Solo numeros positivos en el saldo incial","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
 			}
 			else {
-			cuenta.setNumeroCuenta(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()));
-			Date date = new Date();
-			int cantidadOperacionesGratis = 0;
-			float montoDeposito = Float.parseFloat(vista.getTxtMonto().getText());
-			float saldo = 0;
-			float montoComision = 0;
-			boolean comision = false;
-			cantidadOperacionesGratis = operacionDAO.verificarCantTransaccionesGratis(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString())) + 1;
-			
-			if (cantidadOperacionesGratis > 3) {
-				montoComision = (float) (montoDeposito * 0.02);
-				saldo = montoDeposito - montoComision;
-				comision = true;
-			} else {
-				saldo = montoDeposito;
-			}
-			
-			Operacion op = new Operacion("deposito", date, comision, montoComision, saldo);
-			operacionDAO.realizarDeposito(op, cantidadOperacionesGratis);
-			JOptionPane.showMessageDialog(null, "Estimado usuario, se han depositado correctamente \" + montoDeposito + \".00 colones \\n\"\r\n"
-					+ "				+ \"[El monto real depositado a su cuenta \" + numeroCuenta + \" es de \" + saldo + \" colones] \\n\"\r\n"
-					+ "				+ \"[El monto cobreado por concepto de comision fue de \" + montoComision\r\n"
-					+ "				+ \" colones, que fueron rebajados automáticamente de su saldo actual]","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
+				if(vista.getCbxMoneda().getSelectedItem().toString().equals("Colones")) {
+					depositoColones(Float.parseFloat(vista.getTxtMonto().getText()), 
+							Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString())
+							, operacionDAO);
+					
+				}
+				else {
+					depositoCambioMoneda(Float.parseFloat(vista.getTxtMonto().getText()), 
+							Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()), 
+							operacionDAO);
 
+					
+				}
+				
+			
 			}
 		}
 }

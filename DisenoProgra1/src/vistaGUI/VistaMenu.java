@@ -18,6 +18,7 @@ public class VistaMenu extends JFrame {
 	private JButton btnVerClientes;
 	private JButton btnVerCuentas;
 	private JButton btnDepositar;
+	private JButton btnCambiarPIN;
 
 	/**
 	 * Launch the application.
@@ -47,11 +48,11 @@ public class VistaMenu extends JFrame {
 		contentPane.setLayout(null);
 		
 		btnRgistrarCliente = new JButton("Registrar Cliente");
-		btnRgistrarCliente.setBounds(32, 44, 176, 21);
+		btnRgistrarCliente.setBounds(21, 38, 176, 21);
 		contentPane.add(btnRgistrarCliente);
 		
 		btnRegistarCuenta = new JButton("Registar Cuenta");
-		btnRegistarCuenta.setBounds(253, 44, 147, 21);
+		btnRegistarCuenta.setBounds(227, 38, 147, 21);
 		contentPane.add(btnRegistarCuenta);
 		
 		btnVerClientes = new JButton("Ver Clientes");
@@ -59,16 +60,20 @@ public class VistaMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnVerClientes.setBounds(65, 119, 162, 21);
+		btnVerClientes.setBounds(21, 82, 162, 21);
 		contentPane.add(btnVerClientes);
 		
 		btnVerCuentas = new JButton("Ver Cuentas");
-		btnVerCuentas.setBounds(286, 119, 140, 21);
+		btnVerCuentas.setBounds(234, 82, 140, 21);
 		contentPane.add(btnVerCuentas);
 		
 		btnDepositar = new JButton("Realizar Deposito");
-		btnDepositar.setBounds(71, 175, 156, 21);
+		btnDepositar.setBounds(218, 124, 156, 21);
 		contentPane.add(btnDepositar);
+		
+		btnCambiarPIN = new JButton("CambiarPIN");
+		btnCambiarPIN.setBounds(21, 124, 131, 21);
+		contentPane.add(btnCambiarPIN);
 	}
 	public JButton getBtnRgistrarCliente() {
 		return btnRgistrarCliente;
@@ -84,5 +89,8 @@ public class VistaMenu extends JFrame {
 	}
 	public JButton getBtnDepositar() {
 		return btnDepositar;
+	}
+	public JButton getBtnCambiarPIN() {
+		return btnCambiarPIN;
 	}
 }

@@ -123,12 +123,12 @@ public class CuentaDAO extends conexion {
 		String cantidad = "";
 
 		String sql = "select Cuenta.pin from Cuenta where Cuenta.numeroCuenta="+numCuenta;
+		
 		try {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				cantidad = rs.getString("pin"); 
-				//System.out.println(cantidad);
 				return cantidad;
 			}
 			

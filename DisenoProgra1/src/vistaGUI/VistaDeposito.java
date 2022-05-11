@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class VistaDeposito extends JFrame {
 
@@ -18,6 +19,7 @@ public class VistaDeposito extends JFrame {
 	private JButton btnDepositar;
 	private JButton btnVolver;
 	private JComboBox cbxCuenta;
+	private JComboBox cbxMoneda;
 
 	/**
 	 * Launch the application.
@@ -63,9 +65,10 @@ public class VistaDeposito extends JFrame {
 		btnDepositar.setBounds(201, 138, 85, 21);
 		contentPane.add(btnDepositar);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(357, 89, 69, 21);
-		contentPane.add(comboBox);
+		cbxMoneda = new JComboBox();
+		cbxMoneda.setModel(new DefaultComboBoxModel(new String[] {"Colones", "Dolares"}));
+		cbxMoneda.setBounds(357, 89, 69, 21);
+		contentPane.add(cbxMoneda);
 		
 		JLabel lblNewLabel_2 = new JLabel("Moneda");
 		lblNewLabel_2.setBounds(358, 66, 45, 13);
@@ -90,5 +93,8 @@ public class VistaDeposito extends JFrame {
 	}
 	public JComboBox getCbxCuenta() {
 		return cbxCuenta;
+	}
+	public JComboBox getCbxMoneda() {
+		return cbxMoneda;
 	}
 }
