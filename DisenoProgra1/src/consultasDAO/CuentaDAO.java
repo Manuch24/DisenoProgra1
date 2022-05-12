@@ -284,7 +284,38 @@ public class CuentaDAO extends conexion {
 	}
 
 	
-	
+public String esActiva(int numCuenta) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		String estatus = "";
+
+		String sql = "select Cuenta.estatus from Cuenta where Cuenta.numeroCuenta="+numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				estatus = rs.getString("estatus"); 
+
+				return estatus;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}
+		return "";
+	}
 	
 		
 }

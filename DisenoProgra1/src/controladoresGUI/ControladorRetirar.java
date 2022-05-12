@@ -18,13 +18,13 @@ import logicadenegocios.Operacion;
 import logicadenegocios.Persona;
 import vistaGUI.VistaDeposito;
 import vistaGUI.VistaMenu;
-import vistaGUI.VistaVerClientes;
+import vistaGUI.VistaRetiro;
 
-public class ControladorDeposito implements ActionListener {
+public class ControladorRetirar implements ActionListener {
 
 
 	private VistaMenu vistaMenu;
-	private VistaDeposito vista;
+	private VistaRetiro vista;
 	private PersonaDAO personaDAO;
 	private CuentaDAO cuentaDAO;
 	private Cuenta cuenta;
@@ -32,10 +32,10 @@ public class ControladorDeposito implements ActionListener {
 	private Operacion operacion;
 	private OperacionDAO operacionDAO;
 	private BCCRCambioMoneda cambioMoneda;
-	
-		
-	
-	public ControladorDeposito(VistaDeposito vista ) {
+
+
+
+	public ControladorRetirar(VistaRetiro vista ) {
 		this.vista = vista;
 		this.persona = new Persona();
 		this.cuenta = new Cuenta();
@@ -45,31 +45,31 @@ public class ControladorDeposito implements ActionListener {
 		this.cambioMoneda = new BCCRCambioMoneda();
 		this.cuentaDAO = new CuentaDAO();
 		this.operacionDAO = new OperacionDAO();	
-		this.vista.getBtnDepositar().addActionListener(this);
+		this.vista.getBtnRetirar().addActionListener(this);
 		this.vista.getBtnVolver().addActionListener(this);
-		this.vista.getCbxCuenta().addActionListener(this);
+		this.vista.getCbxCuentaOrigen().addActionListener(this);
 	}
-	
+
 	public void iniciar() {
 		vista.setTitle("Realizar Deposito");
 		vista.setVisible(true);
 		vista.setLocationRelativeTo(null);
-		listarCuentas(vista.getCbxCuenta());
-		
+		listarCuentas(vista.getCbxCuentaOrigen());
+
 	}
-	
-	
+
+
 	public void volver() {
 		vista.setVisible(false);
 		VistaMenu vistaMenu = new VistaMenu();
 		ControladorMenu controladorMenu = new ControladorMenu(vistaMenu);
 		controladorMenu.iniciar();
 	}
-	
+
 	public void listarCuentas(JComboBox cbx) {
 		cuentaDAO.listarCuentas(cbx);
 	}
-	
+
 	public  void depositoColones(float montoDeposito, int numeroCuenta, OperacionDAO dao) {
 		float saldo = 0;
 		float montoComision = 0;
@@ -95,9 +95,9 @@ public class ControladorDeposito implements ActionListener {
 				+ "[El monto real depositado a su cuenta " + numeroCuenta + " es de " + saldo + " colones] \n"
 				+ "[El monto cobreado por concepto de comision fue de " + montoComision
 				+ " colones, que fueron rebajados automáticamente de su saldo actual]");
-		 
+
 	}
-	
+
 	public void depositoCambioMoneda(float montoDeposito, int numeroCuenta, OperacionDAO dao) {
 		float saldo = 0;
 		float montoComision = 0;
@@ -105,14 +105,14 @@ public class ControladorDeposito implements ActionListener {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
-		
+
 		Calendar fecha = Calendar.getInstance();
 		fecha.getTimeInMillis();
 		// formatter.format(date);
 		float compraCambio = cambioMoneda.getVenta();
 		int cantidadOperacionesGratis = dao.verificarCantTransaccionesGratis(numeroCuenta) + 1;
 		montoDeposito = montoDeposito*compraCambio;
-		
+
 		if (cantidadOperacionesGratis > 3) {
 			montoComision = (float) (montoDeposito * 0.02);
 			saldo = montoDeposito - montoComision;
@@ -137,8 +137,8 @@ public class ControladorDeposito implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == vista.getBtnVolver()) {
 			volver();
-	}
-		if (e.getSource() == vista.getBtnDepositar()   ) {
+		}
+		if (e.getSource() == vista.getBtnRetirar()   ) {
 			if(cuenta.validarMonto(Integer.parseInt(vista.getTxtMonto().getText())) ==false) {
 				JOptionPane.showMessageDialog(null, "Error: Solo numeros positivos en el saldo incial","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
 			}
@@ -151,18 +151,18 @@ public class ControladorDeposito implements ActionListener {
 					depositoColones(Float.parseFloat(vista.getTxtMonto().getText()), 
 							Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString())
 							, operacionDAO);
-					
+
 				}
 				else {
 					depositoCambioMoneda(Float.parseFloat(vista.getTxtMonto().getText()), 
 							Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()), 
 							operacionDAO);
 
-					
+
 				}
-				
-			
+
+
 			}
 		}
-}
+	}
 }

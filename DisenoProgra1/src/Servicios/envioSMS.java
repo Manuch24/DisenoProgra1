@@ -4,9 +4,11 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 
 public class envioSMS {
-	
+//	
+//    public static final String ACCOUNT_SID = "AC4d537d4e004564cc9b83465b50c749e7";
+//    public static final String AUTH_TOKEN = "0a540cd3eada1fd39b2b82f57c16a0f5";
     public static final String ACCOUNT_SID = "AC4d537d4e004564cc9b83465b50c749e7";
-    public static final String AUTH_TOKEN = "0a540cd3eada1fd39b2b82f57c16a0f5";
+    public static final String AUTH_TOKEN = "77f7ece5744c20ee7f0203f2936cb8a0";
 	
     
     public void enviarSMS(int numeroTelefono, String codigoVerificacion) {
