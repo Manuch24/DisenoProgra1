@@ -233,4 +233,107 @@ public class OperacionDAO extends conexion {
 
 		}return cantidad;
 	}
+	
+	public int extaerTelefono(int numCuenta) {
+		int cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "select Persona.numeroTelefono from Persona \r\n"
+				+ "inner join personaCuenta on personaCuenta.identificacion=Persona.identificacion\r\n"
+				+ "inner join Cuenta on Cuenta.numeroCuenta=personaCuenta.numeroCuenta where Cuenta.numeroCuenta="+numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getInt("numeroTelefono"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public void InactivarCuenta(int numCuenta) {
+		int cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		//String seInactiva = "Inactivo";
+
+		String sql = "update Cuenta set estatus = (?) where numeroCuenta="+numCuenta;
+		
+		try {
+			 ps = con.prepareStatement(sql);
+
+	           
+	            
+	            ps = con.prepareStatement(sql);
+	            ps.setString(1,"Inactivo");
+	            
+	            ps.execute();
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}
+	}
+	
+	public boolean estatusInactivo(int numCuenta) {
+		String cantidad = "";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "select Cuenta.estatus from Cuenta where Cuenta.numeroCuenta="+numCuenta+" and Cuenta.estatus='Inactivo'";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getString("estatus"); 
+				//System.out.println(cantidad);
+				return true;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return false;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return false;
+	}
+	
 }

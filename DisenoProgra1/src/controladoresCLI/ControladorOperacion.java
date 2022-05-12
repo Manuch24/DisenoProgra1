@@ -14,6 +14,7 @@ public class ControladorOperacion {
 	private BCCRCambioMoneda cambio = new BCCRCambioMoneda();
 	
 	private static int cantidadOperacionesGratis = 0;
+	public static int cantOporu=3;
 	
 	public String depositoColones(float montoDeposito, int numeroCuenta, OperacionDAO dao) {
 		float saldo = 0;
@@ -167,5 +168,12 @@ public class ControladorOperacion {
 
 		return false;
 		
+	}
+	
+	public String inactivarCuenta(int numeroCuenta,OperacionDAO dao) {
+		
+		dao.InactivarCuenta(numeroCuenta);
+		
+		return "Se inactivó su cuenta";
 	}
 }
