@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Vector;
 
 import conexion.conexion;
 import logicadenegocios.Persona;
@@ -335,5 +339,149 @@ public class OperacionDAO extends conexion {
 
 		}return false;
 	}
+
+	public String consultarEstatusCuenta(int numCuenta) {
+		String cantidad = "";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "select Cuenta.estatus from Cuenta where Cuenta.numeroCuenta="+numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getString("estatus"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public Vector generarEstadoCuenta(int numCuenta) {
+		Vector cantidad = new Vector();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		DateFormat df= new SimpleDateFormat("yyyy-MM-dd");
+		
+		//Date fecha;
+		String sql = "select Operacion.fechaOperacion,Operacion.tipo, Operacion.montoOperacion,Operacion.montoComision from Cuenta\r\n"
+				+ "inner join personaCuenta on personaCuenta.numeroCuenta=Cuenta.numeroCuenta \r\n"
+				+ "inner join Persona on Persona.identificacion=personaCuenta.identificacion\r\n"
+				+ "inner join cuentaOperacion on cuentaOperacion.numeroCuenta=Cuenta.numeroCuenta\r\n"
+				+ "inner join Operacion on Operacion.idOperacion=cuentaOperacion.idOperacion where Cuenta.numeroCuenta="+numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Vector fila = new Vector();
+				String fecha=df.format(rs.getDate(1));
+				fila.add(fecha); 
+				fila.add(rs.getString(2));
+				fila.add(rs.getInt(3));
+				fila.add(rs.getInt(4));
+				cantidad.add(fila);
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public float consultaComisionesTotales() {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "select sum(Operacion.montoComision) as TotalComisiones from Operacion";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("TotalComisiones"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public float consultaComisionesPorCuenta(int numCuenta) {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "select sum(Operacion.montoComision) as TotalComisiones from Operacion\r\n"
+				+ "inner join cuentaOperacion on cuentaOperacion.idOperacion=Operacion.idOperacion\r\n"
+				+ "inner join Cuenta on Cuenta.numeroCuenta=cuentaOperacion.numeroCuenta where Cuenta.numeroCuenta="+numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("TotalComisiones"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
 	
 }

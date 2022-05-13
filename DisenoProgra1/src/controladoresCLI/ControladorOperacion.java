@@ -1,7 +1,12 @@
 package controladoresCLI;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import Servicios.BCCRCambioMoneda;
 import consultasDAO.CuentaDAO;
@@ -15,6 +20,7 @@ public class ControladorOperacion {
 	
 	private static int cantidadOperacionesGratis = 0;
 	public static int cantOporu=3;
+	public static float saldoAlmacenado=0;
 	
 	public String depositoColones(float montoDeposito, int numeroCuenta, OperacionDAO dao) {
 		float saldo = 0;
@@ -176,4 +182,113 @@ public class ControladorOperacion {
 		
 		return "Se inactivó su cuenta";
 	}
+	
+	
+	public float consultarCambioCompra() {
+		return cambio.getCompra();
+	}
+	
+	public float consultarCambioVenta() {
+		return cambio.getVenta();
+	}
+	
+	public String consultaSaldoActual(int numCuenta, OperacionDAO dao) {
+		
+		saldoAlmacenado=dao.confirmarSaldo(numCuenta);
+		
+		
+		return "Estimado usuario el saldo actual de su cuenta es: "+saldoAlmacenado+" colones.";
+	}
+	
+	public String saldoActualEquivalente(int numCuenta, OperacionDAO dao) {
+		double resultadoCambio=0;
+		float cambioCompra=cambio.getCompra();
+		
+		consultaSaldoActual(numCuenta,dao);
+		
+		resultadoCambio=(double) (saldoAlmacenado/cambioCompra);
+		
+		return "Estimado usuario el saldo actual de su cuenta en "+resultadoCambio+" dólares \n"
+				+"Para esta conversión se utilizó el tipo de cambio del dólar, precio de compra \n"
+				+"[Según el BCCR, el tipo de cambio de compra, del dólar de hoy es: "+cambioCompra+"]";
+	}
+	
+	public String consultaEstadoCuenta(int numCuenta, OperacionDAO dao) {
+		Vector salida;
+		String resultado="";
+		double saldo=0;
+		
+		salida=dao.generarEstadoCuenta(numCuenta);
+		saldo=(double) dao.confirmarSaldo(numCuenta);
+		for(int i=0;i<salida.size();i++) {
+			resultado+=salida.get(i).toString()+ "\n";
+			
+		}
+		
+		return "El estado de cuenta para la cuenta "+numCuenta+" \n"
+				+" \n"
+				+"[Fecha, Transaccion, monto, comision] \n"
+				+resultado+" \n"
+				+" \n"
+				+"Con un saldo de: "+saldo;
+			
+	}
+	public String consultaEstadoCuentaCambio(int numCuenta,OperacionDAO dao) {
+		Vector salida;
+		String resultado="";
+		double saldo=0;
+		float cambioCompra=cambio.getCompra();		
+		//BigDecimal bigDecimal = new BigDecimal(saldo).setScale(2, RoundingMode.UP);
+		//System.out.println(bigDecimal.doubleValue());
+		DecimalFormat df = new DecimalFormat("#.##");
+		
+		salida=dao.generarEstadoCuenta(numCuenta);
+		saldo=(double) dao.confirmarSaldo(numCuenta);
+		for(int i=0;i<salida.size();i++) {
+			Vector dentro=(Vector) salida.get(i);
+			for(int j=0;j<dentro.size();j++) {
+				if(j==3 || j==2) {
+					int hola=(int) dentro.get(j);
+					
+					//System.out.println();
+					double calculo=(double) hola/cambioCompra;
+					String pal=String.valueOf(new BigDecimal(String.valueOf(calculo)).setScale(1, BigDecimal.ROUND_FLOOR));
+					resultado+=pal;
+				}
+				resultado+=dentro.get(j)+", ";
+			}
+			resultado+="\n";
+			
+		}
+		
+		return "El estado de cuenta para la cuenta "+numCuenta+" \n"
+				+" \n"
+				+"[Fecha, Transaccion, monto, comision] \n"
+				+resultado+" \n"
+				+" \n"
+				+"Con un saldo de: "+saldo/cambioCompra;
+	}
+	
+	public String consultaEstatusCuenta(int numCuenta,OperacionDAO dao) {
+		
+		String resultado = dao.consultarEstatusCuenta(numCuenta);
+		
+		return "La cuenta número "+numCuenta+" tiene estatus "+resultado;
+	}
+	
+	public String consultarGanaciasTotales() {
+		OperacionDAO dao = new OperacionDAO();
+		float resultado = dao.consultaComisionesTotales();
+		
+		return"El monto total cobrado por comisiones para todo el universo de cuentas es: "+resultado;
+	}
+	
+	public String consultarGanaciasPorCuenta(int numCuenta) {
+		OperacionDAO dao = new OperacionDAO();
+		float resultado = dao.consultaComisionesPorCuenta(numCuenta);
+		
+		return"El monto total cobrado por comisiones para la cuenta "+numCuenta+" es: "+resultado;
+	}
+	
+	
 }
