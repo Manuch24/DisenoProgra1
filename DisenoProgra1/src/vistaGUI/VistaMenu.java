@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class VistaMenu extends JFrame {
 
@@ -19,6 +20,11 @@ public class VistaMenu extends JFrame {
 	private JButton btnVerCuentas;
 	private JButton btnDepositar;
 	private JButton btnCambiarPIN;
+	private JButton btnRetiro;
+	private JButton btnVentaCompra;
+	private JLabel lblNewLabel;
+	private JLabel lblVenta;
+	private JLabel lblCompra;
 
 	/**
 	 * Launch the application.
@@ -41,7 +47,7 @@ public class VistaMenu extends JFrame {
 	 */
 	public VistaMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 660, 507);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -74,6 +80,26 @@ public class VistaMenu extends JFrame {
 		btnCambiarPIN = new JButton("CambiarPIN");
 		btnCambiarPIN.setBounds(21, 124, 131, 21);
 		contentPane.add(btnCambiarPIN);
+		
+		btnRetiro = new JButton("Realizar Retiros");
+		btnRetiro.setBounds(35, 175, 129, 21);
+		contentPane.add(btnRetiro);
+		
+		btnVentaCompra = new JButton("Ver tipo cambio");
+		btnVentaCompra.setBounds(257, 175, 140, 21);
+		contentPane.add(btnVentaCompra);
+		
+		lblNewLabel = new JLabel("Tipo de cambio de hoy ");
+		lblNewLabel.setBounds(472, 50, 174, 21);
+		contentPane.add(lblNewLabel);
+		
+		lblVenta = new JLabel("New label");
+		lblVenta.setBounds(468, 86, 156, 13);
+		contentPane.add(lblVenta);
+		
+		lblCompra = new JLabel("New label");
+		lblCompra.setBounds(472, 128, 174, 13);
+		contentPane.add(lblCompra);
 	}
 	public JButton getBtnRgistrarCliente() {
 		return btnRgistrarCliente;
@@ -92,5 +118,17 @@ public class VistaMenu extends JFrame {
 	}
 	public JButton getBtnCambiarPIN() {
 		return btnCambiarPIN;
+	}
+	public JButton getBtnRetiro() {
+		return btnRetiro;
+	}
+	public JButton getBtnVentaCompra() {
+		return btnVentaCompra;
+	}
+	public JLabel getLblCompra() {
+		return lblCompra;
+	}
+	public JLabel getLblVenta() {
+		return lblVenta;
 	}
 }

@@ -235,11 +235,39 @@ public class PersonaDAO extends conexion  {
                 System.err.println(e);
             }
         }
-		return cuentaString;	
-	
-		
-		
+		return cuentaString;			
 	}
+	
+	public int numeroTelefono (int numCuenta) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		int numeroTelefonico = 0;
+		
+		String sql = "SELECT Persona.numeroTelefono FROM Persona JOIN personaCuenta ON "
+				+ "personaCuenta.identificacion = Persona.identificacion WHERE numeroCuenta ="+numCuenta;
+		try {
+			ps = con.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				numeroTelefonico = rs.getInt("numeroTelefono");	
+				}
+			return numeroTelefonico;
+					
+		}catch (SQLException e) {
+			System.err.println(e);
+			return numeroTelefonico;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}	
+		}
+	}
+	
 	
 }
 	

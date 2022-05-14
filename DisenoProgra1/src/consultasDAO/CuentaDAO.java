@@ -282,6 +282,33 @@ public class CuentaDAO extends conexion {
 			}
 		} 
 	}
+	
+	public void listarCuentasDestino(JComboBox cbx) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+
+		String sql = "SELECT Cuenta.numeroCuenta FROM Cuenta WHERE numeroCuenta  != " + cbx.getSelectedItem().toString();
+
+		try{
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			while(rs.next()){
+				cbx.addItem(rs.getInt("numeroCuenta"));
+			}
+			rs.close();
+		}catch(SQLException e){
+			System.err.println(e);
+		}finally{
+			try{
+				con.close();
+			}catch (SQLException e){
+				System.err.println(e);
+			}
+		} 
+	}
+
 
 	
 public String esActiva(int numCuenta) {
@@ -316,6 +343,38 @@ public String esActiva(int numCuenta) {
 		}
 		return "";
 	}
+
+public void bloquearCuenta(int numCuenta) throws SQLException {
+	PreparedStatement ps = null;
+	Connection con = getConexion();
+	//String cantidad = "";
+
+	String sql = "update Cuenta Set estatus= 'Inactivo' where Cuenta.numeroCuenta="+numCuenta;
+	try {
+        
+        ps = con.prepareStatement(sql);
+
+       
+        
+        ps = con.prepareStatement(sql);
+
+        
+        ps.execute();
+        //return true;
+
+    } catch (SQLException e) {
+        System.err.println(e);
+        //return false;
+    } finally {
+        try {
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+	
+}
+	
 	
 		
 }
