@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
 
 public class VistaEstadoCuenta extends JFrame {
 
@@ -22,6 +23,7 @@ public class VistaEstadoCuenta extends JFrame {
 	private JComboBox cbxCuenta;
 	private JLabel lblSaldoActual;
 	private JComboBox cbxMoneda;
+	private JTextField txtPIN;
 
 	/**
 	 * Launch the application.
@@ -51,7 +53,7 @@ public class VistaEstadoCuenta extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Seleccione la cuenta");
-		lblNewLabel.setBounds(60, 20, 143, 13);
+		lblNewLabel.setBounds(49, 20, 143, 13);
 		contentPane.add(lblNewLabel);
 		
 		cbxCuenta = new JComboBox();
@@ -59,28 +61,37 @@ public class VistaEstadoCuenta extends JFrame {
 		contentPane.add(cbxCuenta);
 		
 		btnCargarEstado = new JButton("Cargar Estado");
-		btnCargarEstado.setBounds(279, 16, 136, 21);
+		btnCargarEstado.setBounds(279, 102, 136, 21);
 		contentPane.add(btnCargarEstado);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(60, 58, 366, 176);
+		scrollPane.setBounds(49, 145, 366, 176);
 		contentPane.add(scrollPane);
 		
 		tableOperaciones = new JTable();
 		scrollPane.setViewportView(tableOperaciones);
 		
 		btnVolver = new JButton("Volver");
-		btnVolver.setBounds(354, 288, 85, 21);
+		btnVolver.setBounds(324, 355, 85, 21);
 		contentPane.add(btnVolver);
 		
 		lblSaldoActual = new JLabel("New label");
-		lblSaldoActual.setBounds(68, 312, 182, 13);
+		lblSaldoActual.setBounds(61, 359, 182, 13);
 		contentPane.add(lblSaldoActual);
 		
 		cbxMoneda = new JComboBox();
 		cbxMoneda.setModel(new DefaultComboBoxModel(new String[] {"Colones", "Dolares"}));
 		cbxMoneda.setBounds(436, 56, 111, 21);
 		contentPane.add(cbxMoneda);
+		
+		txtPIN = new JTextField();
+		txtPIN.setBounds(173, 57, 96, 19);
+		contentPane.add(txtPIN);
+		txtPIN.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("PIN:");
+		lblNewLabel_1.setBounds(70, 60, 45, 13);
+		contentPane.add(lblNewLabel_1);
 	}
 	public JTable getTableOperaciones() {
 		return tableOperaciones;
@@ -99,5 +110,8 @@ public class VistaEstadoCuenta extends JFrame {
 	}
 	public JComboBox getCbxMoneda() {
 		return cbxMoneda;
+	}
+	public JTextField getTxtPIN() {
+		return txtPIN;
 	}
 }

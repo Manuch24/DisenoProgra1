@@ -11,6 +11,7 @@ import consultasDAO.PersonaDAO;
 import logicadenegocios.Cuenta;
 import logicadenegocios.Persona;
 import vistaGUI.VistaCambiarPin;
+import vistaGUI.VistaComisiones;
 import vistaGUI.VistaCuenta;
 import vistaGUI.VistaDeposito;
 import vistaGUI.VistaEstadoCuenta;
@@ -53,6 +54,7 @@ public class ControladorMenu implements ActionListener {
 		this.vista.getBtnConsultarSaldo().addActionListener(this);
 		this.vista.getBtnVerEstatus().addActionListener(this);
 		this.vista.getBtnEstadoCuenta().addActionListener(this);
+		this.vista.getBtnComisiones().addActionListener(this);
  		this.bccrCambioMoneda = new BCCRCambioMoneda();
 	}
 	
@@ -140,6 +142,12 @@ public class ControladorMenu implements ActionListener {
 			VistaEstadoCuenta vistaEstadoCuenta = new VistaEstadoCuenta();
 			ControladorVerEstadoCuenta controladorVerEstadoCuenta = new ControladorVerEstadoCuenta(vistaEstadoCuenta);
 			controladorVerEstadoCuenta.iniciar();
+			vista.setVisible(false);
+		}
+		if (e.getSource() == vista.getBtnComisiones()) {
+			VistaComisiones vistaComisiones = new VistaComisiones();
+			ControladorComisiones controladorComisiones = new ControladorComisiones(vistaComisiones);
+			controladorComisiones.iniciar();
 			vista.setVisible(false);
 		}
 

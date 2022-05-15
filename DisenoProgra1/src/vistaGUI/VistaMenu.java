@@ -28,6 +28,7 @@ public class VistaMenu extends JFrame {
 	private JButton btnConsultarSaldo;
 	private JButton btnVerEstatus;
 	private JButton btnEstadoCuenta;
+	private JButton btnComisiones;
 
 	/**
 	 * Launch the application.
@@ -115,6 +116,10 @@ public class VistaMenu extends JFrame {
 		btnEstadoCuenta = new JButton("Estado de cuenta");
 		btnEstadoCuenta.setBounds(34, 262, 130, 21);
 		contentPane.add(btnEstadoCuenta);
+		
+		btnComisiones = new JButton("Comisiones");
+		btnComisiones.setBounds(244, 262, 85, 21);
+		contentPane.add(btnComisiones);
 	}
 	public JButton getBtnRgistrarCliente() {
 		return btnRgistrarCliente;
@@ -154,5 +159,8 @@ public class VistaMenu extends JFrame {
 	}
 	public JButton getBtnEstadoCuenta() {
 		return btnEstadoCuenta;
+	}
+	public JButton getBtnComisiones() {
+		return btnComisiones;
 	}
 }

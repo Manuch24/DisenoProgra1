@@ -26,10 +26,12 @@ public class ControladorVerEstadoCuenta implements ActionListener{
 	private Operacion operacion;
 	private OperacionDAO operacionDAO;
 	private BCCRCambioMoneda cambioMoneda;
+	private int contIntentos;
 	
 		
 	
 	public ControladorVerEstadoCuenta (VistaEstadoCuenta vista ) {
+		this.contIntentos = 0;
 		this.vista = vista;
 		this.cambioMoneda = new BCCRCambioMoneda();
 		this.cuentaDAO = new CuentaDAO();
@@ -74,29 +76,51 @@ public class ControladorVerEstadoCuenta implements ActionListener{
 			if(cuentaDAO.esActiva(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString())).equals("Inactivo")){
 				JOptionPane.showMessageDialog(null, "La cuenta seleccionada esta inactiva","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
 			}else{
-				if(!vista.getCbxMoneda().getSelectedItem().toString().equals("Dolares")) {
 
-					vista.getLblSaldoActual().setVisible(true);
-					vista.getLblSaldoActual().setText("Saldo actual de la cuenta: "+ 
-							cuentaDAO.obtenerSaldo(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()))+ " colones");
-					try {
-						verDetalles();
-					} catch (NumberFormatException | SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+
+				if(!vista.getTxtPIN().getText().equals(
+						cuentaDAO.buscarPin(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString())))) {
+					JOptionPane.showMessageDialog(null, "El pin ingresdo de la cuenta\nno es el mismo. Solo tiene un intento más","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
+					contIntentos +=1;
+
+					if (contIntentos == 2) {
+						JOptionPane.showMessageDialog(null, "Por realizar 2 intentos inválidos, su cuenta se acaba de BLOQUEAR","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
+						try {
+							cuentaDAO.bloquearCuenta(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()));
+						} catch (NumberFormatException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				}else {
-				vista.getLblSaldoActual().setText("Saldo actual de la cuenta: " + 
-						cuentaDAO.obtenerSaldo(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()))/cambioMoneda.getCompra() + " dolares");
+
+
+					if(!vista.getCbxMoneda().getSelectedItem().toString().equals("Dolares")) {
+
+						vista.getLblSaldoActual().setVisible(true);
+						vista.getLblSaldoActual().setText("Saldo actual de la cuenta: "+ 
+								cuentaDAO.obtenerSaldo(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()))+ " colones");
+						try {
+							verDetalles();
+						} catch (NumberFormatException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}else {
+						vista.getLblSaldoActual().setText("Saldo actual de la cuenta: " + 
+								cuentaDAO.obtenerSaldo(Integer.parseInt(vista.getCbxCuenta().getSelectedItem().toString()))/cambioMoneda.getCompra() + " dolares");
 						try {
 							verDetallesDolares();
 						} catch (NumberFormatException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+					}
 				}
 			}
+
 		}
+
 		if (e.getSource() == vista.getBtnVolver()) {
 			volver();
 		}

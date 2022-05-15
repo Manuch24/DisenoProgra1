@@ -558,5 +558,208 @@ public class OperacionDAO extends conexion {
 		}
 	}
 	
+	public float totalRetiros() {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "SELECT SUM(Operacion.montoComision) as total FROM Operacion WHERE Operacion.tipo = 'retiro'";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("total"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public float totalDepositos() {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "SELECT SUM(Operacion.montoComision) as total FROM Operacion WHERE Operacion.tipo = 'deposito'";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("total"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public float totalDepositosRetiros() {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "SELECT SUM(Operacion.montoComision) as total FROM Operacion WHERE Operacion.tipo = 'Retiro' or Operacion.tipo = 'deposito'";
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("total"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public float totalRetiroCuenta(int numCuenta) {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "SELECT SUM(Operacion.montoComision) as total FROM Operacion JOIN cuentaOperacion "
+				+ "ON cuentaOperacion.idOperacion = Operacion.idOperacion WHERE Operacion.tipo = 'retiro' "
+				+ "and cuentaOperacion.numeroCuenta ="+ numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("total"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+
+	public float totalDepositosCuenta(int numCuenta) {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "SELECT SUM(Operacion.montoComision) as total FROM Operacion JOIN cuentaOperacion "
+				+ "ON cuentaOperacion.idOperacion = Operacion.idOperacion WHERE Operacion.tipo = 'deposito' "
+				+ "and cuentaOperacion.numeroCuenta ="+ numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("total"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public float totalDepositosRetirosCuenta(int numCuenta) {
+		float cantidad = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+		String sql = "SELECT SUM(Operacion.montoComision) as total FROM Operacion JOIN "
+				+ "cuentaOperacion ON cuentaOperacion.idOperacion = Operacion.idOperacion WHERE"
+				+ " cuentaOperacion.numeroCuenta =" +numCuenta+ " and Operacion.tipo = 'deposito' "
+						+ "or Operacion.tipo = 'retiro'";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				cantidad = rs.getFloat("total"); 
+				//System.out.println(cantidad);
+				return cantidad;
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
 	
 }
