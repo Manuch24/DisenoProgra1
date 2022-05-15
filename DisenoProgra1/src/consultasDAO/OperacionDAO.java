@@ -3,16 +3,22 @@ package consultasDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import Servicios.BCCRCambioMoneda;
 import conexion.conexion;
 import logicadenegocios.Persona;
 import logicadenegocios.Cuenta;
 import logicadenegocios.Operacion;
+
 
 
 public class OperacionDAO extends conexion {
@@ -58,6 +64,7 @@ public class OperacionDAO extends conexion {
 //		}
 //		
 //	}
+	
 	
 	public void actualizarPin(String nuevoPin, int numCuenta) throws SQLException {
 		PreparedStatement ps = null;
@@ -481,6 +488,74 @@ public class OperacionDAO extends conexion {
 			}
 
 		}return cantidad;
+	}
+	
+	public void consultarEstadoCuenta(JTable tabla, int numCuenta) throws SQLException {
+		DefaultTableModel modelo = new DefaultTableModel();
+		tabla.setModel(modelo);
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+
+		String sql = "SELECT Operacion.tipo, Operacion.montoOperacion, Operacion.montoComision, "
+				+ "Operacion.fechaOperacion FROM Operacion JOIN cuentaOperacion "
+				+ "ON cuentaOperacion.idOperacion = "
+				+ "Operacion.idOperacion WHERE cuentaOperacion.numeroCuenta ="+numCuenta;
+		ps = con.prepareStatement(sql);
+		rs = ps.executeQuery();
+
+		ResultSetMetaData rsMd = rs.getMetaData();
+		int cantidadColumna = rsMd.getColumnCount();
+
+		modelo.addColumn("Tipo Operacion");
+		modelo.addColumn("Monto Operacion");
+		modelo.addColumn("Comision");
+		modelo.addColumn("Fecha");
+
+		while(rs.next()) {
+			Object[] filas = new Object[cantidadColumna];
+
+			for(int i = 0; i<cantidadColumna; i++) {
+				filas[i] = rs.getObject(i+1);
+//				System.out.println(rs.getObject(i+1));
+			}
+			modelo.addRow(filas);
+		}
+	}
+	
+	public void consultarEstadoCuentaDolares(JTable tabla, int numCuenta) throws SQLException {
+		DefaultTableModel modelo = new DefaultTableModel();
+		tabla.setModel(modelo);
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		BCCRCambioMoneda cambioMoneda = new BCCRCambioMoneda();
+		
+		String sql = "SELECT Operacion.tipo, Operacion.montoOperacion / "+ cambioMoneda.getCompra()+", "
+				+ "Operacion.montoComision / "+ cambioMoneda.getCompra()+ ", "
+				+ "Operacion.fechaOperacion FROM Operacion JOIN cuentaOperacion "
+				+ "ON cuentaOperacion.idOperacion = "
+				+ "Operacion.idOperacion WHERE cuentaOperacion.numeroCuenta ="+numCuenta;
+		ps = con.prepareStatement(sql);
+		rs = ps.executeQuery();
+
+		ResultSetMetaData rsMd = rs.getMetaData();
+		int cantidadColumna = rsMd.getColumnCount();
+
+		modelo.addColumn("Tipo Operacion");
+		modelo.addColumn("Monto Operacion");
+		modelo.addColumn("Comision");
+		modelo.addColumn("Fecha");
+
+		while(rs.next()) {
+			Object[] filas = new Object[cantidadColumna];
+
+			for(int i = 0; i<cantidadColumna; i++) {
+				filas[i] = rs.getObject(i+1);
+//				System.out.println(rs.getObject(i+1));
+			}
+			modelo.addRow(filas);
+		}
 	}
 	
 	

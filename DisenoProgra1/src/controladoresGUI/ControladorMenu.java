@@ -13,11 +13,14 @@ import logicadenegocios.Persona;
 import vistaGUI.VistaCambiarPin;
 import vistaGUI.VistaCuenta;
 import vistaGUI.VistaDeposito;
+import vistaGUI.VistaEstadoCuenta;
 import vistaGUI.VistaMenu;
 import vistaGUI.VistaPersona;
 import vistaGUI.VistaRetiro;
 import vistaGUI.VistaVerClientes;
 import vistaGUI.VistaVerCuentas;
+import vistaGUI.VistaVerEstatus;
+import vistaGUI.VistaVerSaldo;
 
 public class ControladorMenu implements ActionListener {
 	
@@ -47,7 +50,10 @@ public class ControladorMenu implements ActionListener {
 		this.vista.getBtnCambiarPIN().addActionListener(this);
 		this.vista.getBtnRetiro().addActionListener(this);
 		this.vista.getBtnVentaCompra().addActionListener(this);
-		this.bccrCambioMoneda = new BCCRCambioMoneda();
+		this.vista.getBtnConsultarSaldo().addActionListener(this);
+		this.vista.getBtnVerEstatus().addActionListener(this);
+		this.vista.getBtnEstadoCuenta().addActionListener(this);
+ 		this.bccrCambioMoneda = new BCCRCambioMoneda();
 	}
 	
 	public void iniciar() {
@@ -116,6 +122,24 @@ public class ControladorMenu implements ActionListener {
 			VistaRetiro vistaRetiro = new VistaRetiro();
 			ControladorRetirar controladorRetirar = new ControladorRetirar(vistaRetiro);
 			controladorRetirar.iniciar();
+			vista.setVisible(false);
+		}
+		if (e.getSource() == vista.getBtnConsultarSaldo()) {
+			VistaVerSaldo vistaVerSaldo = new VistaVerSaldo();
+			ControladorVerSaldo controladorVerSaldo = new ControladorVerSaldo(vistaVerSaldo);
+			controladorVerSaldo.iniciar();
+			vista.setVisible(false);
+		}
+		if (e.getSource() == vista.getBtnVerEstatus()) {
+			VistaVerEstatus vistaVerEstatus = new VistaVerEstatus();
+			ControladorVerEstatus controladorVerEstatus = new ControladorVerEstatus(vistaVerEstatus);
+			controladorVerEstatus.iniciar();
+			vista.setVisible(false);
+		}
+		if (e.getSource() == vista.getBtnEstadoCuenta()) {
+			VistaEstadoCuenta vistaEstadoCuenta = new VistaEstadoCuenta();
+			ControladorVerEstadoCuenta controladorVerEstadoCuenta = new ControladorVerEstadoCuenta(vistaEstadoCuenta);
+			controladorVerEstadoCuenta.iniciar();
 			vista.setVisible(false);
 		}
 

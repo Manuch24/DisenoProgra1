@@ -374,7 +374,37 @@ public void bloquearCuenta(int numCuenta) throws SQLException {
     }
 	
 }
+public int obtenerSaldo(int numCuenta) {
 	
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+	Connection con = getConexion();
+	int cantidad = 0;
+
+	String sql = "select Cuenta.saldo from Cuenta where Cuenta.numeroCuenta="+numCuenta;
+	
+	try {
+		ps = con.prepareStatement(sql);
+		rs = ps.executeQuery();
+		if (rs.next()) {
+			cantidad = rs.getInt("saldo"); 
+			return cantidad;
+		}
+		
+		
+	}catch (SQLException e) {
+		System.err.println(e);
+		
+	}finally {
+		try {
+			con.close();
+		}catch(SQLException e) {
+			System.err.println(e);
+		}
+
+	}
+	return cantidad;
+}
 	
 		
 }

@@ -25,6 +25,9 @@ public class VistaMenu extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblVenta;
 	private JLabel lblCompra;
+	private JButton btnConsultarSaldo;
+	private JButton btnVerEstatus;
+	private JButton btnEstadoCuenta;
 
 	/**
 	 * Launch the application.
@@ -86,7 +89,7 @@ public class VistaMenu extends JFrame {
 		contentPane.add(btnRetiro);
 		
 		btnVentaCompra = new JButton("Ver tipo cambio");
-		btnVentaCompra.setBounds(257, 175, 140, 21);
+		btnVentaCompra.setBounds(227, 175, 140, 21);
 		contentPane.add(btnVentaCompra);
 		
 		lblNewLabel = new JLabel("Tipo de cambio de hoy ");
@@ -100,6 +103,18 @@ public class VistaMenu extends JFrame {
 		lblCompra = new JLabel("New label");
 		lblCompra.setBounds(472, 128, 174, 13);
 		contentPane.add(lblCompra);
+		
+		btnConsultarSaldo = new JButton("Consultar Saldo");
+		btnConsultarSaldo.setBounds(35, 231, 131, 21);
+		contentPane.add(btnConsultarSaldo);
+		
+		btnVerEstatus = new JButton("Estatus Cuenta");
+		btnVerEstatus.setBounds(234, 231, 121, 21);
+		contentPane.add(btnVerEstatus);
+		
+		btnEstadoCuenta = new JButton("Estado de cuenta");
+		btnEstadoCuenta.setBounds(34, 262, 130, 21);
+		contentPane.add(btnEstadoCuenta);
 	}
 	public JButton getBtnRgistrarCliente() {
 		return btnRgistrarCliente;
@@ -130,5 +145,14 @@ public class VistaMenu extends JFrame {
 	}
 	public JLabel getLblVenta() {
 		return lblVenta;
+	}
+	public JButton getBtnConsultarSaldo() {
+		return btnConsultarSaldo;
+	}
+	public JButton getBtnVerEstatus() {
+		return btnVerEstatus;
+	}
+	public JButton getBtnEstadoCuenta() {
+		return btnEstadoCuenta;
 	}
 }
