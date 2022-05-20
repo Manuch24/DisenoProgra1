@@ -45,7 +45,7 @@ public class ControladorPersona {
 		
 		System.out.println("Ingrese su numero telefonico: ");
 		String  telefono = br.readLine();
-		System.out.println("Es extraño: "+ Integer.parseInt(telefono));
+		//System.out.println("Es extraño: "+ Integer.parseInt(telefono));
 		while(verificarTelefono!=true) {
 			if (Validaciones.Validaciones.validarTelefonoRegex(Integer.parseInt(telefono))==true) {
 				persona.setNumeroTelefono(Integer.parseInt(telefono));

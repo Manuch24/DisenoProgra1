@@ -29,6 +29,7 @@ public class VistaMenu extends JFrame {
 	private JButton btnVerEstatus;
 	private JButton btnEstadoCuenta;
 	private JButton btnComisiones;
+	private JButton btnRealizarTransferencia;
 
 	/**
 	 * Launch the application.
@@ -86,11 +87,11 @@ public class VistaMenu extends JFrame {
 		contentPane.add(btnCambiarPIN);
 		
 		btnRetiro = new JButton("Realizar Retiros");
-		btnRetiro.setBounds(35, 175, 129, 21);
+		btnRetiro.setBounds(31, 157, 129, 21);
 		contentPane.add(btnRetiro);
 		
 		btnVentaCompra = new JButton("Ver tipo cambio");
-		btnVentaCompra.setBounds(227, 175, 140, 21);
+		btnVentaCompra.setBounds(218, 231, 140, 21);
 		contentPane.add(btnVentaCompra);
 		
 		lblNewLabel = new JLabel("Tipo de cambio de hoy ");
@@ -110,7 +111,7 @@ public class VistaMenu extends JFrame {
 		contentPane.add(btnConsultarSaldo);
 		
 		btnVerEstatus = new JButton("Estatus Cuenta");
-		btnVerEstatus.setBounds(234, 231, 121, 21);
+		btnVerEstatus.setBounds(227, 262, 121, 21);
 		contentPane.add(btnVerEstatus);
 		
 		btnEstadoCuenta = new JButton("Estado de cuenta");
@@ -118,8 +119,12 @@ public class VistaMenu extends JFrame {
 		contentPane.add(btnEstadoCuenta);
 		
 		btnComisiones = new JButton("Comisiones");
-		btnComisiones.setBounds(244, 262, 85, 21);
+		btnComisiones.setBounds(156, 310, 85, 21);
 		contentPane.add(btnComisiones);
+		
+		btnRealizarTransferencia = new JButton("Realizar Transferencia");
+		btnRealizarTransferencia.setBounds(227, 156, 143, 23);
+		contentPane.add(btnRealizarTransferencia);
 	}
 	public JButton getBtnRgistrarCliente() {
 		return btnRgistrarCliente;
@@ -162,5 +167,8 @@ public class VistaMenu extends JFrame {
 	}
 	public JButton getBtnComisiones() {
 		return btnComisiones;
+	}
+	public JButton getBtnRealizarTransferencia() {
+		return btnRealizarTransferencia;
 	}
 }

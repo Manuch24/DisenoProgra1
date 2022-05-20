@@ -18,6 +18,7 @@ import vistaGUI.VistaEstadoCuenta;
 import vistaGUI.VistaMenu;
 import vistaGUI.VistaPersona;
 import vistaGUI.VistaRetiro;
+import vistaGUI.VistaTransferencia;
 import vistaGUI.VistaVerClientes;
 import vistaGUI.VistaVerCuentas;
 import vistaGUI.VistaVerEstatus;
@@ -33,12 +34,14 @@ public class ControladorMenu implements ActionListener {
 	private VistaCambiarPin vistaCambiarPin;
 	private VistaRetiro vistaRetiro;
 	private VistaMenu vista;
+	private VistaTransferencia vistaTransferencia;
 	
 	private ControladorRetirar controladorRetirar;
 	private ControladorCambiarPIN controladorCambiarPIN;
 	private ControladorPersona controladorPersona;
 	private ControladorCuenta controladorCuenta;
 	private ControladorDeposito controladorDeposito;
+	private ControladorTransferencia controladorTransferencia;
 	
 	public ControladorMenu (VistaMenu vista) {
 	
@@ -55,6 +58,7 @@ public class ControladorMenu implements ActionListener {
 		this.vista.getBtnVerEstatus().addActionListener(this);
 		this.vista.getBtnEstadoCuenta().addActionListener(this);
 		this.vista.getBtnComisiones().addActionListener(this);
+		this.vista.getBtnRealizarTransferencia().addActionListener(this);
  		this.bccrCambioMoneda = new BCCRCambioMoneda();
 	}
 	
@@ -150,7 +154,12 @@ public class ControladorMenu implements ActionListener {
 			controladorComisiones.iniciar();
 			vista.setVisible(false);
 		}
-
+		if (e.getSource() == vista.getBtnRealizarTransferencia()) {
+			VistaTransferencia vistaTransferencia = new VistaTransferencia();
+			ControladorTransferencia controladorTransferencia = new ControladorTransferencia(vistaTransferencia);
+			controladorTransferencia.iniciar();
+			vista.setVisible(false);
+		}
 
 
 	}

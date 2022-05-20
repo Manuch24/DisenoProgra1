@@ -761,5 +761,172 @@ public class OperacionDAO extends conexion {
 
 		}return cantidad;
 	}
+	public Vector detallesPersona(int cedula) {
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		//Persona persona = new Persona();
+		String sql = "select Cuenta.numeroCuenta, Concat(Persona.nombreCliente,' ',Persona.primerApellido,' ',Persona.segundoApellido) as NombreCompleto  \r\n"
+				+ "FROM Persona \r\n"
+				+ "INNER JOIN personaCuenta ON Persona.identificacion = personaCuenta.identificacion \r\n"
+				+ "INNER JOIN Cuenta ON Cuenta.numeroCuenta = personaCuenta.numeroCuenta where Persona.identificacion="+cedula;
+		Vector cantidad = new Vector();
+		try {
+			ps = con.prepareStatement(sql);
+//			ps.setString(1, tabla.getValueAt(tabla.getSelectedRow(),tabla.getSelectedColumn()));
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Vector fila = new Vector();
+				//String fecha=df.format(rs.getDate(1));
+				fila.add(rs.getInt(1)); 
+				fila.add(rs.getString(2));
+				//fila.add(rs.getFloat(3));
+				//fila.add(rs.getString(4));
+				cantidad.add(fila);
+			}
+			
+			
+		}catch (SQLException e) {
+            System.err.println(e);
+            //return false;
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+		return cantidad;
+		}
 	
+	public Vector consultarInfoPersonas() {
+		Vector cantidad = new Vector();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		DateFormat df= new SimpleDateFormat("yyyy-MM-dd");
+		//Vector hola = new vector(['Nommbre Completo', 'Identificacion']);
+		//Date fecha;
+		String sql = "SELECT Persona.nombreCliente,Persona.primerApellido,Persona.segundoApellido,identificacion FROM Persona order by primerApellido asc";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Vector fila = new Vector();
+				//String fecha=df.format(rs.getDate(1));
+				fila.add(rs.getString(1)); 
+				fila.add(rs.getString(2));
+				fila.add(rs.getString(3));
+				fila.add(rs.getInt(4));
+				cantidad.add(fila);
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	
+	public Vector consultarInfoCuentaEspecifica(int numCuenta) {
+		Vector cantidad = new Vector();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		DateFormat df= new SimpleDateFormat("yyyy-MM-dd");
+		
+		//Date fecha;
+		String sql = "select Cuenta.numeroCuenta,Cuenta.fechaCreacion,Cuenta.saldo,Cuenta.estatus,Cuenta.pin FROM Cuenta WHERE numeroCuenta ="+numCuenta;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Vector fila = new Vector();
+				
+				fila.add(rs.getInt(1)); 
+				//String fecha=df.format(rs.getDate(2));
+				fila.add(rs.getDate(2));
+				fila.add(rs.getFloat(3));
+				fila.add(rs.getString(4));
+				fila.add(rs.getString(5));
+				cantidad.add(fila);
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
+	public Vector consultarInfoCuenta() {
+		Vector cantidad = new Vector();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = getConexion();
+		
+		
+
+/*		String sql = "SELECT SUM(Operacion.montoComision) as total FROM Operacion JOIN "
+				+ "cuentaOperacion ON cuentaOperacion.idOperacion = Operacion.idOperacion WHERE"
+				+ " cuentaOperacion.numeroCuenta =" +numCuenta+ " and Operacion.tipo = 'deposito' "
+						+ "or Operacion.tipo = 'retiro'";
+*/
+		//DateFormat df= new SimpleDateFormat("yyyy-MM-dd");
+		
+		//Date fecha;
+		String sql = "SELECT  Cuenta.numeroCuenta, Cuenta.estatus, Cuenta.saldo, Concat(Persona.nombreCliente,' ',Persona.primerApellido,' ',Persona.segundoApellido) as NombreCompleto  \r\n"
+				+ "FROM Persona \r\n"
+				+ "INNER JOIN personaCuenta ON Persona.identificacion = personaCuenta.identificacion \r\n"
+				+ "INNER JOIN Cuenta ON Cuenta.numeroCuenta = personaCuenta.numeroCuenta order by Cuenta.saldo desc";
+
+		
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			
+
+			while (rs.next()) {
+				Vector fila = new Vector();
+				//String fecha=df.format(rs.getDate(1));
+				fila.add(rs.getInt(1)); 
+				fila.add(rs.getString(2));
+				fila.add(rs.getFloat(3));
+				fila.add(rs.getString(4));
+				cantidad.add(fila);
+
+			}
+			
+			
+		}catch (SQLException e) {
+			System.err.println(e);
+			return cantidad;
+		}finally {
+			try {
+				con.close();
+			}catch(SQLException e) {
+				System.err.println(e);
+			}
+
+		}return cantidad;
+	}
 }

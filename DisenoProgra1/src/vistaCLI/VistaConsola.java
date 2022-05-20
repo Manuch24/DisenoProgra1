@@ -19,7 +19,7 @@ import controladoresCLI.ControladorOperacion;
 import Servicios.envioSMS;
 
 public class VistaConsola {
-	public static int cantOportunidades = 3;
+	public static int cantOportunidades = 2;
 
 	public static void menu() {
 		System.out.println();
@@ -46,9 +46,9 @@ public class VistaConsola {
 			System.out.println("1. Registrar cliente ");
 			System.out.println("2. Registrar cuenta ");
 			System.out.println("3. Listar todos los clientes creados: ");
-			System.out.println("3.1. Consultar datos de un cliente: ");
+			System.out.println("	3.1. Consultar datos de un cliente: ");
 			System.out.println("4. Listar toda las cuentas creadas: ");
-			System.out.println("4.1. Consultar datos de cuenta: ");
+			System.out.println("	4.1. Consultar datos de cuenta: ");
 			System.out.println("5. Cambiar Pin");
 			System.out.println("6. Realizar Depósito");
 			System.out.println("7. Realizar depósito con cambio de moneda");
@@ -66,6 +66,12 @@ public class VistaConsola {
 			System.out.println("19. Consultar ganancias del banco producto de cobro de comisiones para una cuenta");
 			System.out.println("20. salir");
 
+			System.out.println("");
+
+			System.out.println("");
+
+			System.out.println("Ingrese una opción: ");
+
 			int opcion = reader.nextInt();
 			switch (opcion) {
 			case 1:
@@ -76,6 +82,44 @@ public class VistaConsola {
 			case 2:
 				ControladorCuenta nuevoRegistroCuenta = new ControladorCuenta();
 				nuevoRegistroCuenta.cliRegistrarCuenta();
+				break;
+
+			case 3:
+				System.out.println("A continuación se enlistan todos los clientes creados");
+				String todo = ctrl.listarClientes();
+				System.out.println(todo);
+
+				System.out.println("Desea ver alguna persona en específico? (Y/N)");
+
+				String opt = reader.next();
+
+				if (opt.equals("Y")) {
+					System.out.println("Ingrese la cédula de la persona que desea detallar: ");
+					int opc = reader.nextInt();
+					String resultado = ctrl.consultaClienteDetallado(opc);
+					System.out.println(resultado);
+				} else {
+					break;
+				}
+				break;
+
+			case 4:
+				System.out.println("A continuación se enlistan todas las cuentas creadas");
+				String sal = ctrl.listarCuentas();
+
+				System.out.println(sal);
+
+				System.out.println("Desea ver alguna cuenta en específico? (Y/N)");
+				String opti = reader.next();
+
+				if (opti.equals("Y")) {
+					System.out.println("Ingrese el numero de cuenta que desea detallar: ");
+					int opc = reader.nextInt();
+					String resultado = ctrl.consultaCuentaDetallado(opc);
+					System.out.println(resultado);
+				} else {
+					break;
+				}
 				break;
 			case 7:
 				ControladorCuenta cambioPin = new ControladorCuenta();
@@ -90,24 +134,28 @@ public class VistaConsola {
 				boolean ver = false;
 				Scanner nuevo = new Scanner(System.in);
 				int numCuenta = nuevo.nextInt();
-				if (cuentaDAO.verificarExistenciaCuenta(numCuenta) == true) {
-					System.out.println("Ingrese el monto a depositar: ");
-					float monto = nuevo.nextFloat();
+				if (!cuenta.estatusInactivo(numCuenta)) {
+					if (cuentaDAO.verificarExistenciaCuenta(numCuenta) == true) {
+						System.out.println("Ingrese el monto a depositar: ");
+						float monto = nuevo.nextFloat();
 
-					while (ver != true) {
-						// System.out.println("aqui");
-						if (monto == (int) monto) {
-							salida = deposito.depositoColones(monto, numCuenta, cuenta);
-							ver = true;
-						} else {
-							System.out.println("Error en el formato del monto: ");
-							System.out.println("Vuelva a ingresar un monto: ");
-							monto = nuevo.nextInt();
+						while (ver != true) {
+							// System.out.println("aqui");
+							if (monto == (int) monto) {
+								salida = deposito.depositoColones(monto, numCuenta, cuenta);
+								ver = true;
+							} else {
+								System.out.println("Error en el formato del monto: ");
+								System.out.println("Vuelva a ingresar un monto: ");
+								monto = nuevo.nextInt();
+							}
 						}
+						System.out.println(salida);
+					} else {
+						System.out.println("Esta cuenta no existe");
 					}
-					System.out.println(salida);
 				} else {
-					System.out.println("Esta cuenta no existe");
+					System.out.println("La cuenta está inactiva");
 				}
 				break;
 
@@ -153,42 +201,55 @@ public class VistaConsola {
 				Scanner nuevoInput1 = new Scanner(System.in);
 				int numeroCuenta1 = nuevoInput1.nextInt();
 				if (!cuenta.estatusInactivo(numeroCuenta1)) {
-					if (cuentaDAO.verificarExistenciaCuenta(numeroCuenta1) == true) {
-						System.out.println("Ingrese su número de pin: ");
-						String pin = nuevoInput1.next();
+					while (cantOportunidades > 0) {
+						if (cuentaDAO.verificarExistenciaCuenta(numeroCuenta1) == true) {
+							System.out.println("Ingrese su número de pin: ");
+							String pin = nuevoInput1.next();
 
-						if (cuentaDAO.buscarPin(numeroCuenta1).compareTo(pin) == 0) {
-							String codigo = mensajes.generarCodigoVerificacion();
-							mensajes.enviarSMS(cuenta.extaerTelefono(numeroCuenta1), codigo);
+							if (cuentaDAO.buscarPin(numeroCuenta1).compareTo(pin) == 0) {
+								String codigo = mensajes.generarCodigoVerificacion();
+								mensajes.enviarSMS(cuenta.extaerTelefono(numeroCuenta1), codigo);
 
-							System.out.println("Ingrese el código de seguridad enviado a su teléfono: ");
-							String codigoVerfi = nuevoInput1.next();
+								System.out.println("Ingrese el código de seguridad enviado a su teléfono: ");
+								String codigoVerfi = nuevoInput1.next();
 
-							if (codigo.equals(codigoVerfi)) {
+								if (codigo.equals(codigoVerfi)) {
 
-								System.out.println("Ingrese el monto a retirar ");
-								float monto = nuevoInput1.nextFloat();
+									System.out.println("Ingrese el monto a retirar ");
+									float monto = nuevoInput1.nextFloat();
 
-								while (verificar1 != true) {
-									// System.out.println("aqui");
-									if (monto == (int) monto) {
-										salidaTexto1 = retiro.retiroColones(monto, numeroCuenta1, cuenta);
-										verificar1 = true;
-									} else {
-										System.out.println("Error en el formato del monto: ");
-										System.out.println("Vuelva a ingresar un monto: ");
-										monto = nuevoInput1.nextInt();
+									while (verificar1 != true) {
+										// System.out.println("aqui");
+										if (monto == (int) monto) {
+											salidaTexto1 = retiro.retiroColones(monto, numeroCuenta1, cuenta);
+											verificar1 = true;
+											cantOportunidades = 3;
+										} else {
+											System.out.println("Error en el formato del monto: ");
+											System.out.println("Vuelva a ingresar un monto: ");
+											monto = nuevoInput1.nextInt();
+										}
 									}
+									System.out.println(salidaTexto1);
+								} else {
+									System.out.println("Código incorrecto");
+									cantOportunidades--;
+									System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
 								}
-								System.out.println(salidaTexto1);
 							} else {
-								System.out.println("Código incorrecto");
+								System.out.println("Contraseña incorrecta");
+								cantOportunidades--;
+								System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
 							}
+
 						} else {
-							System.out.println("Contraseña incorrecta");
+							System.out.println("Esta cuenta no existe");
 						}
-					} else {
-						System.out.println("Esta cuenta no existe");
+					}
+					if (cantOportunidades == 0) {
+						System.out.println("Se quedón sin intentos, se ha inactivado su cuenta");
+						cantOportunidades = 3;
+						ctrl.inactivarCuenta(numeroCuenta1, cuenta);
 					}
 				} else {
 					System.out.println("La cuenta se encuentra inactiva");
@@ -204,41 +265,53 @@ public class VistaConsola {
 				Scanner nuevoI = new Scanner(System.in);
 				int numeroCuen = nuevoI.nextInt();
 				if (!cuenta.estatusInactivo(numeroCuen)) {
-					if (cuentaDAO.verificarExistenciaCuenta(numeroCuen) == true) {
-						System.out.println("Ingrese su número de pin: ");
-						String pin = nuevoI.next();
+					while (cantOportunidades > 0) {
+						if (cuentaDAO.verificarExistenciaCuenta(numeroCuen) == true) {
+							System.out.println("Ingrese su número de pin: ");
+							String pin = nuevoI.next();
 
-						if (cuentaDAO.buscarPin(numeroCuen).compareTo(pin) == 0) {
+							if (cuentaDAO.buscarPin(numeroCuen).compareTo(pin) == 0) {
 
-							String codigo = mensajes.generarCodigoVerificacion();
-							mensajes.enviarSMS(cuenta.extaerTelefono(numeroCuen), codigo);
+								String codigo = mensajes.generarCodigoVerificacion();
+								mensajes.enviarSMS(cuenta.extaerTelefono(numeroCuen), codigo);
 
-							System.out.println("Ingrese el código de seguridad enviado a su teléfono: ");
-							String codigoVerfi = nuevoI.next();
-							if (codigo.equals(codigoVerfi)) {
-								System.out.println("Ingrese el monto a retirar dólares ");
-								float monto = nuevoI.nextFloat();
+								System.out.println("Ingrese el código de seguridad enviado a su teléfono: ");
+								String codigoVerfi = nuevoI.next();
+								if (codigo.equals(codigoVerfi)) {
+									System.out.println("Ingrese el monto a retirar dólares ");
+									float monto = nuevoI.nextFloat();
 
-								while (verific != true) {
+									while (verific != true) {
 
-									if (monto == (int) monto) {
-										salidaText = retiroCambio.retiroCompraMoneda(monto, numeroCuen, cuenta);
-										verific = true;
-									} else {
-										System.out.println("Error en el formato del monto: ");
-										System.out.println("Vuelva a ingresar un monto: ");
-										monto = nuevoI.nextInt();
+										if (monto == (int) monto) {
+											salidaText = retiroCambio.retiroCompraMoneda(monto, numeroCuen, cuenta);
+											verific = true;
+											cantOportunidades = 3;
+										} else {
+											System.out.println("Error en el formato del monto: ");
+											System.out.println("Vuelva a ingresar un monto: ");
+											monto = nuevoI.nextInt();
+										}
 									}
+									System.out.println(salidaText);
+								} else {
+									System.out.println("Código Incorrecto");
+									cantOportunidades--;
+									System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
 								}
-								System.out.println(salidaText);
 							} else {
-								System.out.println("Código Incorrecto");
+								System.out.println("Contraseña incorrecta");
+								cantOportunidades--;
+								System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
 							}
 						} else {
-							System.out.println("Contraseña incorrecta");
+							System.out.println("Esta cuenta no existe");
 						}
-					} else {
-						System.out.println("Esta cuenta no existe");
+					}
+					if (cantOportunidades > 2) {
+						System.out.println("Se quedón sin intentos, se ha inactivado su cuenta");
+						cantOportunidades = 3;
+						ctrl.inactivarCuenta(numeroCuen, cuenta);
 					}
 				} else {
 					System.out.println("La cuenta se encuentra inactiva");
@@ -278,7 +351,7 @@ public class VistaConsola {
 									if (cuentaDAO.verificarExistenciaCuenta(cuentaDepositar) == true) {
 										transfeText = transferencia.realizarTransferencia(cuentaRetiro, montoDepositar,
 												cuentaDepositar, cuenta);
-
+										cantOportunidades = 3;
 										System.out.println(transfeText);
 										break;
 
@@ -296,8 +369,9 @@ public class VistaConsola {
 								System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
 							}
 						} // else {
-						if (cantOportunidades == 0) {
-							System.out.println("Se quedón sin intentos");
+						if (cantOportunidades > 2) {
+							System.out.println("Se quedón sin intentos, se ha inactivado su cuenta");
+							cantOportunidades = 3;
 							ctrl.inactivarCuenta(cuentaRetiro, cuenta);
 						}
 						// }
@@ -333,19 +407,33 @@ public class VistaConsola {
 				// boolean verifica = false;
 				Scanner entr = new Scanner(System.in);
 				int cuentaConsulta = entr.nextInt();
-				if (cuentaDAO.verificarExistenciaCuenta(cuentaConsulta) == true) {
-					System.out.println("Ingrese su número de pin: ");
-					String pin = entr.next();
+				if (!cuenta.estatusInactivo(cuentaConsulta)) {
+					if (cuentaDAO.verificarExistenciaCuenta(cuentaConsulta) == true) {
+						while (cantOportunidades > 0) {
+							System.out.println("Ingrese su número de pin: ");
+							String pin = entr.next();
 
-					if (cuentaDAO.buscarPin(cuentaConsulta).compareTo(pin) == 0) {
-						String mostrar = ctrl.consultaSaldoActual(cuentaConsulta, cuenta);
-						System.out.println(mostrar);
+							if (cuentaDAO.buscarPin(cuentaConsulta).compareTo(pin) == 0) {
+								String mostrar = ctrl.consultaSaldoActual(cuentaConsulta, cuenta);
+								System.out.println(mostrar);
+								cantOportunidades = 3;
+							} else {
+								System.out.println("Pin Incorrecto");
+								cantOportunidades--;
+								System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
+							}
+						}
+						if (cantOportunidades > 2) {
+							System.out.println("Se quedón sin intentos, se ha inactivado su cuenta");
+							cantOportunidades = 3;
+							ctrl.inactivarCuenta(cuentaConsulta, cuenta);
+						}
 					} else {
-						System.out.println("Pin Incorrecto");
+						System.out.println("La cuenta no existe");
 					}
 
 				} else {
-					System.out.println("La cuenta no existe");
+					System.out.println("La cuenta está inactiva");
 				}
 				break;
 
@@ -355,21 +443,34 @@ public class VistaConsola {
 				// boolean verifica = false;
 				Scanner entrada = new Scanner(System.in);
 				int cuentaCons = entrada.nextInt();
-				if (cuentaDAO.verificarExistenciaCuenta(cuentaCons) == true) {
-					System.out.println("Ingrese su número de pin: ");
-					String pin = entrada.next();
+				if (!cuenta.estatusInactivo(cuentaCons)) {
+					if (cuentaDAO.verificarExistenciaCuenta(cuentaCons) == true) {
+						while (cantOportunidades > 0) {
+							System.out.println("Ingrese su número de pin: ");
+							String pin = entrada.next();
 
-					if (cuentaDAO.buscarPin(cuentaCons).compareTo(pin) == 0) {
-						String mostrar = ctrl.saldoActualEquivalente(cuentaCons, cuenta);
-						System.out.println(mostrar);
+							if (cuentaDAO.buscarPin(cuentaCons).compareTo(pin) == 0) {
+								String mostrar = ctrl.saldoActualEquivalente(cuentaCons, cuenta);
+								System.out.println(mostrar);
+								cantOportunidades = 3;
+							} else {
+								System.out.println("Pin Incorrecto");
+								cantOportunidades--;
+								System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
+							}
+						}
+						if (cantOportunidades > 2) {
+							System.out.println("Se quedón sin intentos, se ha inactivado su cuenta");
+							cantOportunidades = 3;
+							ctrl.inactivarCuenta(cuentaCons, cuenta);
+						}
+
 					} else {
-						System.out.println("Pin Incorrecto");
+						System.out.println("La cuenta no existe");
 					}
-
 				} else {
-					System.out.println("La cuenta no existe");
+					System.out.println("La cuenta está inactiva");
 				}
-
 				break;
 			case 17:
 				ControladorOperacion consultaEstado = new ControladorOperacion();
@@ -379,22 +480,36 @@ public class VistaConsola {
 				// boolean verfi = false;
 				Scanner nuevoEn = new Scanner(System.in);
 				int Ncuenta = nuevoEn.nextInt();
-				if (cuentaDAO.verificarExistenciaCuenta(Ncuenta) == true) {
-					System.out.println("Ingrese el su pin: ");
-					String pinIn = nuevoEn.next();
+				if (!cuenta.estatusInactivo(Ncuenta)) {
+					if (cuentaDAO.verificarExistenciaCuenta(Ncuenta) == true) {
+						while (cantOportunidades > 0) {
+							System.out.println("Ingrese el su pin: ");
+							String pinIn = nuevoEn.next();
 
-					if (cuentaDAO.buscarPin(Ncuenta).compareTo(pinIn) == 0) {
+							if (cuentaDAO.buscarPin(Ncuenta).compareTo(pinIn) == 0) {
 
-						Impresion = consultaEstado.consultaEstadoCuenta(Ncuenta, cuenta);
-						// verific = true;
+								Impresion = consultaEstado.consultaEstadoCuenta(Ncuenta, cuenta);
+								// verific = true;
 
-						System.out.println(Impresion);
+								System.out.println(Impresion);
 
+								cantOportunidades = 3;
+							} else {
+								System.out.println("Pin incorrecto");
+								cantOportunidades--;
+								System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
+							}
+						}
+						if (cantOportunidades > 2) {
+							System.out.println("Se quedón sin intentos, se ha inactivado su cuenta");
+							cantOportunidades = 3;
+							ctrl.inactivarCuenta(Ncuenta, cuenta);
+						}
 					} else {
-						System.out.println("Contraseña incorrecta");
+						System.out.println("La cuenta no existe");
 					}
 				} else {
-					System.out.println("Esta cuenta no existe");
+					System.out.println("La cuenta está inactiva");
 				}
 
 				break;
@@ -407,22 +522,36 @@ public class VistaConsola {
 				// boolean verfi = false;
 				Scanner entradaN = new Scanner(System.in);
 				int NumCuenta = entradaN.nextInt();
-				if (cuentaDAO.verificarExistenciaCuenta(NumCuenta) == true) {
-					System.out.println("Ingrese el su pin: ");
-					String pinIn = entradaN.next();
+				if (!cuenta.estatusInactivo(NumCuenta)) {
+					if (cuentaDAO.verificarExistenciaCuenta(NumCuenta) == true) {
+						while (cantOportunidades > 0) {
+							System.out.println("Ingrese el su pin: ");
+							String pinIn = entradaN.next();
 
-					if (cuentaDAO.buscarPin(NumCuenta).compareTo(pinIn) == 0) {
+							if (cuentaDAO.buscarPin(NumCuenta).compareTo(pinIn) == 0) {
 
-						Impresion1 = consultaEstadoCambio.consultaEstadoCuentaCambio(NumCuenta, cuenta);
-						// verific = true;
+								Impresion1 = consultaEstadoCambio.consultaEstadoCuentaCambio(NumCuenta, cuenta);
+								// verific = true;
 
-						System.out.println(Impresion1);
+								System.out.println(Impresion1);
+								cantOportunidades = 3;
 
+							} else {
+								System.out.println("Pin incorrecto");
+								cantOportunidades--;
+								System.out.println("Le quedan [" + cantOportunidades + "] oportunidades");
+							}
+						}
+						if (cantOportunidades > 2) {
+							System.out.println("Se quedón sin intentos, se ha inactivado su cuenta");
+							cantOportunidades = 3;
+							ctrl.inactivarCuenta(NumCuenta, cuenta);
+						}
 					} else {
-						System.out.println("Contraseña incorrecta");
+						System.out.println("Esta cuenta no existe");
 					}
 				} else {
-					System.out.println("Esta cuenta no existe");
+					System.out.println("La cuenta está inactiva");
 				}
 
 				break;
@@ -461,6 +590,7 @@ public class VistaConsola {
 			case 21:
 				// saldoactualCambio
 				Scanner entradaNa = new Scanner(System.in);
+				System.out.println("Ingrese la cuenta que desea verificar comisiones: ");
 				int cuentaComisiones = entradaNa.nextInt();
 				if (cuentaDAO.verificarExistenciaCuenta(cuentaComisiones) == true) {
 					System.out.println(ctrl.consultarGanaciasPorCuenta(cuentaComisiones));

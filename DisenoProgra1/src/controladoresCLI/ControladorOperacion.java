@@ -289,7 +289,41 @@ public class ControladorOperacion {
 		
 		return"El monto total cobrado por comisiones para la cuenta "+numCuenta+" es: "+resultado;
 	}
+	public String listarClientes() {
+		OperacionDAO dao = new OperacionDAO();
+		
+		Vector resultado = dao.consultarInfoPersonas();
+		
+		return "[Nombre,  primerApellido, segundoApellido, identificacion] \n"
+				+resultado;
+	}
+	public String consultaClienteDetallado(int cedula) {
+		OperacionDAO dao = new OperacionDAO();
+		
+		Vector resultado = dao.detallesPersona(cedula);
+		
+		return "[NumeroCuenta,  NombreCompleto  ] \n"
+				+resultado;
+	}
 	
+	public String listarCuentas() {
+		OperacionDAO dao = new OperacionDAO();
+		
+		Vector resultado = dao.consultarInfoCuenta();
+		
+		return "[Cuenta, estatus , saldo ,   nombreCompleto   ] \n"
+				+resultado;
+	}
+	
+	
+	public String consultaCuentaDetallado(int numCuenta) {
+		OperacionDAO dao = new OperacionDAO();
+		
+		Vector resultado = dao.consultarInfoCuentaEspecifica(numCuenta);
+		
+		return "[Cuenta, fecha , saldo , estatus , pin] \n"
+				+resultado;
+	}
 	
 }
 
